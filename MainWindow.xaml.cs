@@ -94,8 +94,8 @@ namespace SimpleExplorer
 
         public void OpenInternetOption()
         {
-            string res = HUtilities.RunCommand("inetcpl.cpl");
-            MessageBox.Show(res);
+            System.Diagnostics.Process p = HUtilities.RunProgram("InetCpl.cpl", ",4");
+            p.WaitForExit();
         }
 
         public void GoBack()
