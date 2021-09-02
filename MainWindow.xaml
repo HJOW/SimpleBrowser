@@ -29,7 +29,8 @@ limitations under the License.
         </Grid.ColumnDefinitions>
         <Menu Grid.Row="0" Grid.Column="1">
             <MenuItem Header="파일">
-                <MenuItem Header="종료" Click="MenuItem_Click" />
+                <MenuItem Header="인터넷 옵션" Click="MenuItem_IEOption_Click" />
+                <MenuItem Header="종료" Click="MenuItem_Close_Click" />
             </MenuItem>
         </Menu>
         <Grid Grid.Row="1" Grid.Column="0">

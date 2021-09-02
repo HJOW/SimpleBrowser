@@ -74,7 +74,12 @@ namespace SimpleExplorer
 
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_IEOption_Click(object sender, RoutedEventArgs e)
+        {
+            OpenInternetOption();
+        }
+
+        private void MenuItem_Close_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
         }
@@ -85,6 +90,12 @@ namespace SimpleExplorer
             {
                 Navigate(tfUrl.Text);
             }
+        }
+
+        public void OpenInternetOption()
+        {
+            string res = HUtilities.RunCommand("inetcpl.cpl");
+            MessageBox.Show(res);
         }
 
         public void GoBack()
