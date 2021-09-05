@@ -7,3 +7,5 @@ Working IDE : Visual C# Express 2010
 단, MS Ribbon Control dll 파일의 라이센스는 예외적으로, 다음 URL에서 확인하실 수 있습니다.
 
 https://docs.microsoft.com/ko-kr/archive/blogs/jensenh/licensing-the-2007-microsoft-office-user-interface
+
+프로젝트 폴더에 있는 dlls 폴더 내 파일들을 참조로 등록한 후 빌드가 가능합니다.
