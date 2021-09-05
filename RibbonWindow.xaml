@@ -1,0 +1,81 @@
+﻿<base:BrowserWindow x:Class="SimpleExplorer.RibbonWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:r="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
+        xmlns:base="clr-namespace:SimpleExplorer"
+        Title="Simple Explorer" Height="548" Width="902" Closing="BrowserWindow_Closing">
+    <!--
+ Copyright 2021 HJOW
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+    -->
+    <Window.Resources>
+        <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+            <r:RibbonCommand x:Key="ribbon_button_ap_exit" LabelTitle="종료" CanExecute="RibbonCommand_CanExecute" Executed="RibbonApplicationMenuItem_ap_exit_Click"/>
+            <r:RibbonCommand x:Key="ribbon_button_ap_ie_option" LabelTitle="인터넷 옵션" CanExecute="RibbonCommand_CanExecute" Executed="RibbonButton_ap_ie_option_Click"/>
+            <r:RibbonCommand x:Key="ribbon_button_home_back" LabelTitle="뒤로" CanExecute="RibbonCommand_CanExecute" Executed="RibbonButton_home_back_Click"/>
+            <r:RibbonCommand x:Key="ribbon_button_home_front" LabelTitle="앞으로" CanExecute="RibbonCommand_CanExecute" Executed="RibbonButton_home_front_Click"/>
+            <r:RibbonCommand x:Key="ribbon_button_home_refresh" LabelTitle="새로고침" CanExecute="RibbonCommand_CanExecute" Executed="RibbonButton_home_refresh_Click"/>
+        </ResourceDictionary>
+    </Window.Resources>
+    <DockPanel>
+        <r:Ribbon Title="Simple Explorer" x:Name="ribbon" DockPanel.Dock="Top">
+            <r:Ribbon.ApplicationMenu>
+                <r:RibbonApplicationMenu>
+                    <r:RibbonApplicationMenu.Footer>
+                        <DockPanel LastChildFill="False">
+                            <r:RibbonButton DockPanel.Dock="Right" Command="{StaticResource ribbon_button_ap_exit}"/>
+                        </DockPanel>
+                    </r:RibbonApplicationMenu.Footer>
+                    <r:RibbonApplicationMenuItem Command="{StaticResource ribbon_button_ap_ie_option}"/>
+                </r:RibbonApplicationMenu>
+            </r:Ribbon.ApplicationMenu>
+            <r:RibbonTab Name="홈" Uid="rt_Home" Label="홈">
+                <r:RibbonGroup>
+                    <r:RibbonButton Command="{StaticResource ribbon_button_home_back}"/>
+                    <r:RibbonButton Command="{StaticResource ribbon_button_home_refresh}"/>
+                    <r:RibbonButton Command="{StaticResource ribbon_button_home_front}"/>
+                </r:RibbonGroup>
+            </r:RibbonTab>
+        </r:Ribbon>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="50"/>
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0" Grid.Row="1">
+                    <TextBox Height="20" Name="tfUrl" Uid="tfUrl" Width="auto" VerticalAlignment="Center" KeyDown="tfUrl_KeyDown" VerticalContentAlignment="Center" />
+                </DockPanel>
+                <Button Content="GO" Grid.Column="1" Height="20" HorizontalAlignment="Left" Margin="14,5,0,0" Name="btnGo" VerticalAlignment="Top" Width="30" Uid="btnGo" Click="btnGo_Click" />
+            </Grid>
+            <WebBrowser Uid="webbrowser" Name="webbrowser" Grid.Column="0" Grid.Row="1" Navigating="webbrowser_Navigating" Navigated="webbrowser_Navigated" SourceUpdated="webbrowser_SourceUpdated" LoadCompleted="webbrowser_LoadCompleted"></WebBrowser>
+            <DockPanel Grid.Column="0" Grid.Row="2">
+                <ProgressBar DockPanel.Dock="Right" Width="100" Name="progBar" Uid="progBar"></ProgressBar>
+                <TextBox Height="30" Name="tfStatus" Uid="tfStatus" Width="auto" IsReadOnly="True" />
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</base:BrowserWindow>

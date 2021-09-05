@@ -30,11 +30,11 @@ limitations under the License.
 namespace SimpleExplorer
 {
     /// <summary>
-    /// MainWindow.xaml에 대한 상호 작용 논리
+    /// RibbonWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainWindow : BrowserWindow
+    public partial class RibbonWindow : BrowserWindow
     {
-        public MainWindow()
+        public RibbonWindow()
         {
             InitializeComponent();
         }
@@ -66,27 +66,12 @@ namespace SimpleExplorer
 
         private void RibbonButton_home_refresh_Click(object sender, ExecutedRoutedEventArgs e)
         {
-            
+            core.Refresh();
         }
 
         private void btnGo_Click(object sender, RoutedEventArgs e)
         {
             core.Navigate(tfUrl.Text);
-        }
-
-        private void btnBack_Click(object sender, RoutedEventArgs e)
-        {
-            core.GoBack();
-        }
-
-        private void btnForward_Click(object sender, RoutedEventArgs e)
-        {
-            core.GoForward();
-        }
-
-        private void btnRefresh_Click(object sender, RoutedEventArgs e)
-        {
-            core.Refresh();
         }
 
         private void webbrowser_Navigating(object sender, NavigatingCancelEventArgs e)

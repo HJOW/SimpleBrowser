@@ -1,7 +1,8 @@
-﻿<Window x:Class="SimpleExplorer.MainWindow"
+﻿<base:BrowserWindow x:Class="SimpleExplorer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Simple Explorer" Height="548" Width="902">
+        xmlns:base="clr-namespace:SimpleExplorer"
+        Title="Simple Explorer" Height="548" Width="902" Closing="BrowserWindow_Closing">
     <!--
  Copyright 2021 HJOW
 
@@ -17,43 +18,45 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
     -->
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition/>
-            <RowDefinition Height="30"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Menu Grid.Row="0" Grid.Column="1">
-            <MenuItem Header="파일">
-                <MenuItem Header="인터넷 옵션" Click="MenuItem_IEOption_Click" />
-                <MenuItem Header="종료" Click="MenuItem_Close_Click" />
-            </MenuItem>
-        </Menu>
-        <Grid Grid.Row="1" Grid.Column="0">
+    <DockPanel>
+        <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition/>
+                <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120"/>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
-            <DockPanel Grid.Column="1" Grid.Row="1">
-                <TextBox Height="30" Name="tfUrl" Uid="tfUrl" Width="auto" VerticalAlignment="Center" KeyDown="tfUrl_KeyDown" VerticalContentAlignment="Center" />
+            <Menu Grid.Row="0" Grid.Column="1">
+                <MenuItem Header="파일">
+                    <MenuItem Header="인터넷 옵션" Click="MenuItem_IEOption_Click" />
+                    <MenuItem Header="종료" Click="MenuItem_Close_Click" />
+                </MenuItem>
+            </Menu>
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="50"/>
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="1" Grid.Row="1">
+                    <TextBox Height="20" Name="tfUrl" Uid="tfUrl" Width="auto" VerticalAlignment="Center" KeyDown="tfUrl_KeyDown" VerticalContentAlignment="Center" />
+                </DockPanel>
+                <Button Content="&lt;" Height="20" HorizontalAlignment="Left" Margin="6,6,0,0" Name="btnBack" VerticalAlignment="Top" Width="20" Uid="btnBack" Click="btnBack_Click" />
+                <Button Content="R" Height="20" HorizontalAlignment="Right" Margin="0,6,28,0" Name="btnRefresh" VerticalAlignment="Top" Width="20" Uid="btnRefresh" Click="btnRefresh_Click" />
+                <Button Content="&gt;" Height="20" HorizontalAlignment="Left" Margin="58,6,0,0" Name="btnForward" Uid="btnForward" VerticalAlignment="Top" Width="20" Click="btnForward_Click" />
+                <Button Content="GO" Grid.Column="2" Height="20" HorizontalAlignment="Left" Margin="14,6,0,0" Name="btnGo" VerticalAlignment="Top" Width="30" Uid="btnGo" Click="btnGo_Click" />
+            </Grid>
+            <WebBrowser Uid="webbrowser" Name="webbrowser" Grid.Column="0" Grid.Row="2" Navigating="webbrowser_Navigating" Navigated="webbrowser_Navigated" SourceUpdated="webbrowser_SourceUpdated" LoadCompleted="webbrowser_LoadCompleted"></WebBrowser>
+            <DockPanel Grid.Column="0" Grid.Row="3">
+                <ProgressBar DockPanel.Dock="Right" Width="100" Name="progBar" Uid="progBar"></ProgressBar>
+                <TextBox Height="30" Name="tfStatus" Uid="tfStatus" Width="auto" IsReadOnly="True" />
             </DockPanel>
-            <Button Content="←" Height="30" HorizontalAlignment="Left" Margin="6,10,0,0" Name="btnBack" VerticalAlignment="Top" Width="30" Uid="btnBack" Click="btnBack_Click" />
-            <Button Content="§" Height="30" HorizontalAlignment="Left" Margin="42,10,0,0" Name="btnRefresh" VerticalAlignment="Top" Width="30" Uid="btnRefresh" />
-            <Button Content="→" Height="30" HorizontalAlignment="Left" Margin="78,10,0,0" Name="btnForward" Uid="btnForward" VerticalAlignment="Top" Width="30" Click="btnForward_Click" />
-            <Button Content="＠" Grid.Column="2" Height="30" HorizontalAlignment="Left" Margin="6,10,0,0" Name="btnGo" VerticalAlignment="Top" Width="50" Uid="btnGo" Click="btnGo_Click" />
         </Grid>
-        <WebBrowser Uid="webbrowser" Name="webbrowser" Grid.Column="0" Grid.Row="2" Navigating="webbrowser_Navigating" Navigated="webbrowser_Navigated" SourceUpdated="webbrowser_SourceUpdated" LoadCompleted="webbrowser_LoadCompleted"></WebBrowser>
-        <DockPanel Grid.Column="0" Grid.Row="3">
-            <ProgressBar DockPanel.Dock="Right" Width="100" Name="progBar" Uid="progBar"></ProgressBar>
-            <TextBox Height="30" Name="tfStatus" Uid="tfStatus" Width="auto" IsReadOnly="True" />
-        </DockPanel>
-    </Grid>
-</Window>
+    </DockPanel>
+</base:BrowserWindow>
