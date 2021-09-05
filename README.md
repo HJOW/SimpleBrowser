@@ -1,5 +1,6 @@
 # SimpleBrowser
 윈도우 11 환경에서 Internet Explorer 을 편리하게 이용하기 위한 방법을 제공합니다.
+설치 프로그램은 releases 폴더에 올릴 예정입니다.
 
 Working IDE : Visual C# Express 2010
 
