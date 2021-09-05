@@ -39,11 +39,6 @@ namespace SimpleExplorer
             InitializeComponent();
         }
 
-        private void BrowserWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            Shutdown();
-        }
-
         private void RibbonApplicationMenuItem_ap_exit_Click(object sender, ExecutedRoutedEventArgs e)
         {
             Shutdown();
@@ -74,26 +69,6 @@ namespace SimpleExplorer
             core.Navigate(tfUrl.Text);
         }
 
-        private void webbrowser_Navigating(object sender, NavigatingCancelEventArgs e)
-        {
-
-        }
-
-        private void webbrowser_Navigated(object sender, NavigationEventArgs e)
-        {
-            tfUrl.Text = e.Uri.ToString();
-        }
-
-        private void webbrowser_SourceUpdated(object sender, DataTransferEventArgs e)
-        {
-
-        }
-
-        private void webbrowser_LoadCompleted(object sender, NavigationEventArgs e)
-        {
-
-        }
-
         private void MenuItem_IEOption_Click(object sender, RoutedEventArgs e)
         {
             OpenInternetOption();
@@ -120,6 +95,11 @@ namespace SimpleExplorer
         public override TextBox getUrlField()
         {
             return tfUrl;
+        }
+
+        public override Window getWindow()
+        {
+            return this;
         }
 
         private void RibbonCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)

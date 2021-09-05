@@ -18,6 +18,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
     -->
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--
+                <ResourceDictionary Source="theme/Office2010Blue.MSControls.Core.Implicit.xaml" />
+                <ResourceDictionary Source="theme/Office2010Blue.MSControls.Toolkit.Implicit.xaml" />
+                -->
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

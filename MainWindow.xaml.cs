@@ -39,36 +39,6 @@ namespace SimpleExplorer
             InitializeComponent();
         }
 
-        private void BrowserWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            Shutdown();
-        }
-
-        private void RibbonApplicationMenuItem_ap_exit_Click(object sender, ExecutedRoutedEventArgs e)
-        {
-            Shutdown();
-        }
-
-        private void RibbonButton_ap_ie_option_Click(object sender, ExecutedRoutedEventArgs e)
-        {
-            OpenInternetOption();
-        }
-
-        private void RibbonButton_home_back_Click(object sender, ExecutedRoutedEventArgs e)
-        {
-            core.GoBack();
-        }
-
-        private void RibbonButton_home_front_Click(object sender, ExecutedRoutedEventArgs e)
-        {
-            core.GoForward();
-        }
-
-        private void RibbonButton_home_refresh_Click(object sender, ExecutedRoutedEventArgs e)
-        {
-            
-        }
-
         private void btnGo_Click(object sender, RoutedEventArgs e)
         {
             core.Navigate(tfUrl.Text);
@@ -87,26 +57,6 @@ namespace SimpleExplorer
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
             core.Refresh();
-        }
-
-        private void webbrowser_Navigating(object sender, NavigatingCancelEventArgs e)
-        {
-
-        }
-
-        private void webbrowser_Navigated(object sender, NavigationEventArgs e)
-        {
-            tfUrl.Text = e.Uri.ToString();
-        }
-
-        private void webbrowser_SourceUpdated(object sender, DataTransferEventArgs e)
-        {
-
-        }
-
-        private void webbrowser_LoadCompleted(object sender, NavigationEventArgs e)
-        {
-
         }
 
         private void MenuItem_IEOption_Click(object sender, RoutedEventArgs e)
@@ -137,9 +87,9 @@ namespace SimpleExplorer
             return tfUrl;
         }
 
-        private void RibbonCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        public override Window getWindow()
         {
-            e.CanExecute = true;
+            return this;
         }
     }
 }

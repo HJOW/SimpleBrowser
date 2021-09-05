@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:r="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
         xmlns:base="clr-namespace:SimpleExplorer"
-        Title="Simple Explorer" Height="548" Width="902" Closing="BrowserWindow_Closing">
+        Title="Simple Explorer" Height="548" Width="902" Closing="BrowserWindow_Closing" Uid="windowRibbonWindow" x:Name="windowRibbonWindow" Loaded="windowMainWindow_Loaded">
     <!--
  Copyright 2021 HJOW
 

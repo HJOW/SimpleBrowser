@@ -33,12 +33,19 @@ namespace SimpleExplorer
 {
     public class BrowserCore : Disposeable
     {
+        public const string VERSION = "0.0.1";
+
         BrowserWindow win;
         List<Disposeable> resources = new List<Disposeable>();
 
         public BrowserCore(BrowserWindow win)
         {
             this.win = win;
+        }
+
+        public void Init()
+        { 
+
         }
 
         public void OpenInternetOption()

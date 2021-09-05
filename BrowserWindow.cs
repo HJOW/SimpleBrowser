@@ -34,6 +34,7 @@ namespace SimpleExplorer
     public class BrowserWindow : Window
     {
         protected BrowserCore core;
+
         public BrowserWindow()
         {
             core = new BrowserCore(this);
@@ -49,6 +50,11 @@ namespace SimpleExplorer
             return null;
         }
 
+        public virtual Window getWindow()
+        {
+            return this;
+        }
+
         public void OpenInternetOption()
         {
             System.Diagnostics.Process p = HUtilities.RunProgram("InetCpl.cpl", ",4");
@@ -59,6 +65,50 @@ namespace SimpleExplorer
         {
             if (core != null) { core.dispose(); core = null; }
             System.Windows.Application.Current.Shutdown();
+        }
+
+        protected void windowMainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Title = "Simple Explorer" + " v" + BrowserCore.VERSION;
+        }
+
+        protected void BrowserWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Shutdown();
+        }
+
+        protected void webbrowser_Navigating(object sender, NavigatingCancelEventArgs e)
+        {
+
+        }
+
+        protected void webbrowser_Navigated(object sender, NavigationEventArgs e)
+        {
+            if (getUrlField() != null) getUrlField().Text = e.Uri.ToString();
+        }
+
+        protected void webbrowser_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+
+        }
+
+        protected void webbrowser_LoadCompleted(object sender, NavigationEventArgs e)
+        {
+            string titles = "";
+
+            try
+            {
+                titles = ((dynamic)getWebBrowser().Document).Title;
+                titles = titles.Trim();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            if (!titles.Equals("")) titles = titles + " - " + "Simple Explorer" + " v" + BrowserCore.VERSION;
+            else titles = "Simple Explorer" + " v" + BrowserCore.VERSION;
+
+            this.Title = titles;
         }
     }
 }
