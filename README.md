@@ -9,3 +9,6 @@ Working IDE : Visual C# Express 2010
 https://docs.microsoft.com/ko-kr/archive/blogs/jensenh/licensing-the-2007-microsoft-office-user-interface
 
 프로젝트 폴더에 있는 dlls 폴더 내 파일들을 참조로 등록한 후 빌드가 가능합니다.
+
+프로그램 아이콘 출처
+https://icon-icons.com/ko/%EC%95%84%EC%9D%B4%EC%BD%98/%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80-%EC%9D%B8%ED%84%B0%EB%84%B7-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/5686
