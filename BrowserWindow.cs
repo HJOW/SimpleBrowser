@@ -30,7 +30,10 @@ limitations under the License.
 
 namespace SimpleExplorer
 {
-
+    /**
+     * 브라우저 창 컨트롤의 상위 클래스
+     *    각 타입별 브라우저 창이 이 클래스와 상속관계
+     */
     public class BrowserWindow : Window
     {
         protected BrowserCore core;
@@ -46,6 +49,31 @@ namespace SimpleExplorer
         }
 
         public virtual TextBox getUrlField()
+        {
+            return null;
+        }
+
+        public virtual Button getBackButton()
+        {
+            return null;
+        }
+
+        public virtual Button getForwardButton()
+        {
+            return null;
+        }
+
+        public virtual Button getRefreshButton()
+        {
+            return null;
+        }
+
+        public virtual ProgressBar getProgressBar()
+        {
+            return null;
+        }
+
+        public virtual TextBox getStatusTextBox()
         {
             return null;
         }
@@ -70,6 +98,7 @@ namespace SimpleExplorer
         protected void windowMainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             this.Title = "Simple Explorer" + " v" + BrowserCore.VERSION;
+            core.Init();
         }
 
         protected void BrowserWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -84,7 +113,9 @@ namespace SimpleExplorer
 
         protected void webbrowser_Navigated(object sender, NavigationEventArgs e)
         {
-            if (getUrlField() != null) getUrlField().Text = e.Uri.ToString();
+            string uriStr = "";
+            if (e.Uri != null) uriStr = e.Uri.ToString();
+            if (getUrlField() != null) getUrlField().Text = uriStr;
         }
 
         protected void webbrowser_SourceUpdated(object sender, DataTransferEventArgs e)

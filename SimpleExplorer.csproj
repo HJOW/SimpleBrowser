@@ -80,7 +80,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationFramework.Aero" />
-    <Reference Include="RibbonControlsLibrary">
+    <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>dlls\RibbonControlsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -102,10 +103,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BuiltinHtmlContents.cs" />
     <Compile Include="RibbonWindow.xaml.cs">
       <DependentUpon>RibbonWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainWindow.xaml">
+    <Page Include="SimpleWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -117,8 +119,8 @@
     <Compile Include="BrowserWindow.cs" />
     <Compile Include="Disposeable.cs" />
     <Compile Include="HUtilities.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="SimpleWindow.xaml.cs">
+      <DependentUpon>SimpleWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="RibbonWindow.xaml">
@@ -151,6 +153,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="resources\material-design-icons\LICENSE" />
+    <None Include="resources\material-design-icons\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="theme\" />
@@ -179,6 +183,35 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\browser_internet_network_6248.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\material-design-icons\icon_back.png" />
+    <Resource Include="resources\material-design-icons\icon_forward.png" />
+    <Resource Include="resources\material-design-icons\icon_go.png" />
+    <Resource Include="resources\material-design-icons\icon_refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\material-design-icons\icon_exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\material-design-icons\icon_settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\material-design-icons\icon_small_settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="MSHTML">
+      <Guid>{3050F1C5-98B5-11CF-BB82-00AA00BDCE0B}</Guid>
+      <VersionMajor>4</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\material-design-icons\icon_print.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

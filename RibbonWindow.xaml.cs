@@ -49,6 +49,11 @@ namespace SimpleExplorer
             OpenInternetOption();
         }
 
+        private void RibbonButton_ap_print_Click(object sender, ExecutedRoutedEventArgs e)
+        {
+            core.Print();
+        }
+
         private void RibbonButton_home_back_Click(object sender, ExecutedRoutedEventArgs e)
         {
             core.GoBack();
@@ -64,27 +69,9 @@ namespace SimpleExplorer
             core.Refresh();
         }
 
-        private void btnGo_Click(object sender, RoutedEventArgs e)
+        private void RibbonButton_home_go_Click(object sender, ExecutedRoutedEventArgs e)
         {
             core.Navigate(tfUrl.Text);
-        }
-
-        private void MenuItem_IEOption_Click(object sender, RoutedEventArgs e)
-        {
-            OpenInternetOption();
-        }
-
-        private void MenuItem_Close_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Application.Current.Shutdown();
-        }
-
-        private void tfUrl_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Return)
-            {
-                core.Navigate(tfUrl.Text);
-            }
         }
 
         public override WebBrowser getWebBrowser()
@@ -97,6 +84,31 @@ namespace SimpleExplorer
             return tfUrl;
         }
 
+        public override Button getBackButton()
+        {
+            return btnBack;
+        }
+
+        public override Button getForwardButton()
+        {
+            return btnForward;
+        }
+
+        public override Button getRefreshButton()
+        {
+            return btnRefresh;
+        }
+
+        public override ProgressBar getProgressBar()
+        {
+            return progBar;
+        }
+
+        public override TextBox getStatusTextBox()
+        {
+            return tfStatus;
+        }
+
         public override Window getWindow()
         {
             return this;
@@ -105,6 +117,26 @@ namespace SimpleExplorer
         private void RibbonCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
+        }
+
+        private void RibbonCommand_CanGoBack(object sender, CanExecuteRoutedEventArgs e)
+        {
+            core.RefreshButtonStatuses();
+            e.CanExecute = getWebBrowser().CanGoBack;
+        }
+
+        private void RibbonCommand_CanGoForward(object sender, CanExecuteRoutedEventArgs e)
+        {
+            core.RefreshButtonStatuses();
+            e.CanExecute = getWebBrowser().CanGoForward;
+        }
+
+        private void tfUrl_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                core.Navigate(tfUrl.Text);
+            }
         }
     }
 }

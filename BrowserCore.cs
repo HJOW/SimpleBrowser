@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 using System.Windows;
+using System.Windows.Resources;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -12,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using mshtml;
 
 /*
  Copyright 2021 HJOW
@@ -44,8 +47,8 @@ namespace SimpleExplorer
         }
 
         public void Init()
-        { 
-
+        {
+            NavigateToString(BuiltinHtmlContents.Start);
         }
 
         public void OpenInternetOption()
@@ -57,16 +60,41 @@ namespace SimpleExplorer
         public void GoBack()
         {
             win.getWebBrowser().GoBack();
+            RefreshButtonStatuses();
         }
 
         public void GoForward()
         {
             win.getWebBrowser().GoForward();
+            RefreshButtonStatuses();
         }
 
         public void Refresh()
         {
             win.getWebBrowser().Refresh();
+            RefreshButtonStatuses();
+        }
+
+        public void Print()
+        {
+            PrintDialog pd = new PrintDialog();
+            if (pd.ShowDialog() == true)
+            {
+                IHTMLDocument2 doc = (IHTMLDocument2) win.getWebBrowser().Document;
+
+                DocumentPaginator aDocPage = ((IDocumentPaginatorSource)doc).DocumentPaginator;
+                aDocPage.PageSize = new Size(pd.PrintableAreaWidth, pd.PrintableAreaHeight);
+                pd.PrintDocument(aDocPage, "Print");
+            }
+        }
+
+        public void RefreshButtonStatuses()
+        {
+            Button btn = win.getBackButton();
+            if (btn != null) btn.IsEnabled = win.getWebBrowser().CanGoBack;
+
+            btn = win.getForwardButton();
+            if (btn != null) btn.IsEnabled = win.getWebBrowser().CanGoForward;
         }
 
         public void Navigate(string url)
@@ -74,7 +102,7 @@ namespace SimpleExplorer
             Navigate(url, 0);
         }
 
-        private void Navigate(string url, int retryCount)
+        protected void Navigate(string url, int retryCount)
         {
             try
             {
@@ -96,6 +124,12 @@ namespace SimpleExplorer
                 MessageBox.Show("오류가 발생하였습니다.\n" + ex.ToString());
                 Console.WriteLine(ex.ToString());
             }
+            RefreshButtonStatuses();
+        }
+
+        public void NavigateToString(string html)
+        {
+            win.getWebBrowser().NavigateToString(html);
         }
 
         public void dispose()

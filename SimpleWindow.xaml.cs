@@ -32,9 +32,9 @@ namespace SimpleExplorer
     /// <summary>
     /// MainWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainWindow : BrowserWindow
+    public partial class SimpleWindow : BrowserWindow
     {
-        public MainWindow()
+        public SimpleWindow()
         {
             InitializeComponent();
         }
@@ -77,6 +77,11 @@ namespace SimpleExplorer
             }
         }
 
+        private void MenuItem_Print_Click(object sender, RoutedEventArgs e)
+        {
+            core.Print();
+        }
+
         public override WebBrowser getWebBrowser()
         {
             return webbrowser;
@@ -85,6 +90,31 @@ namespace SimpleExplorer
         public override TextBox getUrlField()
         {
             return tfUrl;
+        }
+
+        public override Button getBackButton()
+        {
+            return btnBack;
+        }
+
+        public override Button getForwardButton()
+        {
+            return btnForward;
+        }
+
+        public override Button getRefreshButton()
+        {
+            return btnRefresh;
+        }
+
+        public override ProgressBar getProgressBar()
+        {
+            return progBar;
+        }
+
+        public override TextBox getStatusTextBox()
+        {
+            return tfStatus;
         }
 
         public override Window getWindow()
