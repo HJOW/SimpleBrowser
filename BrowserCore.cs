@@ -148,5 +148,43 @@ namespace SimpleExplorer
             }
             resources.Clear();
         }
+
+        public void onNavigating(object sender, NavigatingCancelEventArgs e)
+        {
+
+        }
+
+        public void onNavigated(object sender, NavigationEventArgs e)
+        {
+            string uriStr = "";
+            if (e.Uri != null) uriStr = e.Uri.ToString();
+            win.SetUrlFieldText(uriStr);
+        }
+
+        public void onSourceUpdated()
+        {
+
+        }
+
+        public void onLoadCompleted()
+        {
+            string titles = "";
+
+            try
+            {
+                titles = ((dynamic) win.getWebBrowser().Document).Title;
+                titles = titles.Trim();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            if (!titles.Equals("")) titles = titles + " - " + "Simple Explorer" + " v" + BrowserCore.VERSION;
+            else titles = "Simple Explorer" + " v" + BrowserCore.VERSION;
+
+            win.SetTitle(titles);
+
+            RefreshButtonStatuses();
+        }
     }
 }

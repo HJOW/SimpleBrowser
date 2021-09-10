@@ -32,10 +32,12 @@ namespace SimpleExplorer
     /// <summary>
     /// RibbonWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class RibbonWindow : BrowserWindow
+    public partial class RibbonWindow : Window, BrowserWindow
     {
+        protected BrowserCore core;
         public RibbonWindow()
         {
+            core = new BrowserCore(this);
             InitializeComponent();
         }
 
@@ -74,42 +76,42 @@ namespace SimpleExplorer
             core.Navigate(tfUrl.Text);
         }
 
-        public override WebBrowser getWebBrowser()
+        public WebBrowser getWebBrowser()
         {
             return webbrowser;
         }
 
-        public override TextBox getUrlField()
+        public TextBox getUrlField()
         {
             return tfUrl;
         }
 
-        public override Button getBackButton()
+        public Button getBackButton()
         {
             return btnBack;
         }
 
-        public override Button getForwardButton()
+        public Button getForwardButton()
         {
             return btnForward;
         }
 
-        public override Button getRefreshButton()
+        public Button getRefreshButton()
         {
             return btnRefresh;
         }
 
-        public override ProgressBar getProgressBar()
+        public ProgressBar getProgressBar()
         {
             return progBar;
         }
 
-        public override TextBox getStatusTextBox()
+        public TextBox getStatusTextBox()
         {
             return tfStatus;
         }
 
-        public override Window getWindow()
+        public Window getWindow()
         {
             return this;
         }
@@ -137,6 +139,58 @@ namespace SimpleExplorer
             {
                 core.Navigate(tfUrl.Text);
             }
+        }
+
+        public void OpenInternetOption()
+        {
+            core.OpenInternetOption();
+        }
+
+        public void Shutdown()
+        {
+            if (core != null) { core.dispose(); core = null; }
+            System.Windows.Application.Current.Shutdown();
+        }
+
+        protected void windowMainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Title = "Simple Explorer" + " v" + BrowserCore.VERSION;
+            core.Init();
+        }
+
+        protected void BrowserWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Shutdown();
+        }
+
+        protected void webbrowser_Navigating(object sender, NavigatingCancelEventArgs e)
+        {
+            core.onNavigating(sender, e);
+        }
+
+        protected void webbrowser_Navigated(object sender, NavigationEventArgs e)
+        {
+            core.onNavigated(sender, e);
+        }
+
+        protected void webbrowser_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            core.onSourceUpdated();
+        }
+
+        protected void webbrowser_LoadCompleted(object sender, NavigationEventArgs e)
+        {
+            core.onLoadCompleted();
+        }
+
+        public void SetTitle(string title)
+        {
+            this.Title = title;
+        }
+
+        public void SetUrlFieldText(string url)
+        {
+            getUrlField().Text = url;
         }
     }
 }
