@@ -44,6 +44,7 @@ namespace SimpleExplorer
         public BrowserCore(BrowserWindow win)
         {
             this.win = win;
+            HUtilities.FixWebBrowserCompatibility();
         }
 
         public void Init()

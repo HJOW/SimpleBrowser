@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Win32;
 /*
  Copyright 2021 HJOW
 
@@ -37,6 +38,13 @@ namespace SimpleExplorer
         public static System.Diagnostics.Process RunProgram(string str, string param)
         {
             return System.Diagnostics.Process.Start(str, param);
+        }
+        public static void FixWebBrowserCompatibility()
+        {
+            // set the actual key
+            using (RegistryKey Key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", RegistryKeyPermissionCheck.ReadWriteSubTree))
+                if (Key.GetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe") == null)
+                    Key.SetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe", 11001, RegistryValueKind.DWord);
         }
     }
 }
