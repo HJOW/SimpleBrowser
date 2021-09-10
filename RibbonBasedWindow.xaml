@@ -1,4 +1,4 @@
-﻿<Window x:Class="SimpleExplorer.RibbonWindow"
+﻿<r:RibbonWindow x:Class="SimpleExplorer.RibbonBasedWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:r="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
@@ -22,7 +22,11 @@ limitations under the License.
     <Window.Resources>
         <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-            <r:RibbonCommand x:Key="ribbon_appmenu_root" LabelTitle="Simple Explorer" SmallImageSource="/resources/material-design-icons/icon_small_settings.png"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PresentationFramework.Aero;component/themes/Aero.NormalColor.xaml" />
+                <ResourceDictionary Source="/RibbonControlsLibrary;component/Themes/Office2007Blue.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <r:RibbonCommand x:Key="ribbon_appmenu_root" LabelTitle="Simple Explorer" SmallImageSource="/resources/material-design-icons/icon_small_settings.png" LargeImageSource="/resources/browser_internet_network_32.png"/>
             <r:RibbonCommand x:Key="ribbon_group_home_basic" LabelTitle="컨트롤" LabelDescription="컨트롤"/>
             <r:RibbonCommand x:Key="ribbon_button_ap_exit" LabelTitle="종료" SmallImageSource="/resources/material-design-icons/icon_exit.png" CanExecute="RibbonCommand_CanExecute" Executed="RibbonApplicationMenuItem_ap_exit_Click"/>
             <r:RibbonCommand x:Key="ribbon_button_ap_print" LabelTitle="인쇄" LargeImageSource="/resources/material-design-icons/icon_print.png" CanExecute="RibbonCommand_CanExecute" Executed="RibbonButton_ap_print_Click"/>
@@ -99,4 +103,4 @@ limitations under the License.
             </DockPanel>
         </Grid>
     </DockPanel>
-</Window>
+</r:RibbonWindow>

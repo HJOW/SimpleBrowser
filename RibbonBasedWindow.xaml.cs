@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Windows.Controls.Ribbon;
 
 /*
  Copyright 2021 HJOW
@@ -32,10 +33,10 @@ namespace SimpleExplorer
     /// <summary>
     /// RibbonWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class RibbonWindow : Window, BrowserWindow
+    public partial class RibbonBasedWindow : RibbonWindow, BrowserWindow
     {
         protected BrowserCore core;
-        public RibbonWindow()
+        public RibbonBasedWindow()
         {
             core = new BrowserCore(this);
             InitializeComponent();

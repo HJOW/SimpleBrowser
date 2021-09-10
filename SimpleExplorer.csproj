@@ -104,8 +104,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BuiltinHtmlContents.cs" />
-    <Compile Include="RibbonWindow.xaml.cs">
-      <DependentUpon>RibbonWindow.xaml</DependentUpon>
+    <Compile Include="RibbonBasedWindow.xaml.cs">
+      <DependentUpon>RibbonBasedWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="SimpleWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -123,7 +123,7 @@
       <DependentUpon>SimpleWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="RibbonWindow.xaml">
+    <Page Include="RibbonBasedWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -212,6 +212,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\material-design-icons\icon_print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\browser_internet_network_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\browser_internet_network_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\browser_internet_network_32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
