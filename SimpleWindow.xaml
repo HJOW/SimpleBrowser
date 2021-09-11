@@ -59,7 +59,7 @@ limitations under the License.
                 <Button Content="&gt;" Height="20" HorizontalAlignment="Left" Margin="58,6,0,0" Name="btnForward" Uid="btnForward" VerticalAlignment="Top" Width="20" Click="btnForward_Click" />
                 <Button Content="GO" Grid.Column="2" Height="20" HorizontalAlignment="Left" Margin="14,6,0,0" Name="btnGo" VerticalAlignment="Top" Width="30" Uid="btnGo" Click="btnGo_Click" />
             </Grid>
-            <WebBrowser Uid="webbrowser" Name="webbrowser" Grid.Column="0" Grid.Row="2" Navigating="webbrowser_Navigating" Navigated="webbrowser_Navigated" SourceUpdated="webbrowser_SourceUpdated" LoadCompleted="webbrowser_LoadCompleted"></WebBrowser>
+            <base:BrowserTabControl Grid.Column="0" Grid.Row="2" x:Name="tabctrl" Uid="tabctrl" SelectionChanged="tabctrl_SelectionChanged" />
             <DockPanel Grid.Column="0" Grid.Row="3">
                 <ProgressBar DockPanel.Dock="Right" Width="100" Name="progBar" Uid="progBar"></ProgressBar>
                 <TextBox Height="30" Name="tfStatus" Uid="tfStatus" Width="auto" IsReadOnly="True" />

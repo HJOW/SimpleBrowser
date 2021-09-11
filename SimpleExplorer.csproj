@@ -86,6 +86,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -103,10 +105,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AeroManager.cs" />
+    <Compile Include="BrowserTab.xaml.cs">
+      <DependentUpon>BrowserTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BrowserTabControl.xaml.cs">
+      <DependentUpon>BrowserTabControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BuiltinHtmlContents.cs" />
     <Compile Include="RibbonBasedWindow.xaml.cs">
       <DependentUpon>RibbonBasedWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="BrowserTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BrowserTabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SimpleWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

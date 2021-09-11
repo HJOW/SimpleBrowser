@@ -34,7 +34,7 @@ namespace SimpleExplorer
      * 브라우저 창 컨트롤의 상위 클래스
      *    각 타입별 브라우저 창이 이 클래스와 상속관계
      */
-    public interface BrowserWindow
+    public interface BrowserWindow : Disposeable
     {
         WebBrowser getWebBrowser();
         TextBox getUrlField();
@@ -44,6 +44,12 @@ namespace SimpleExplorer
         ProgressBar getProgressBar();
         TextBox getStatusTextBox();
         Window getWindow();
+        List<BrowserTab> getBrowserTabs();
+        BrowserTab getActiveBrowserTab();
+        int getActiveBrowserTabIndex();
+        int getBrowserTabCount();
+        BrowserCore getCore();
+        void NewTab();
         void OpenInternetOption();
         void Shutdown();
         void SetTitle(string title);

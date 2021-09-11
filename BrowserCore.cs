@@ -37,6 +37,7 @@ namespace SimpleExplorer
     public class BrowserCore : Disposeable
     {
         public const string VERSION = "0.0.1";
+        protected List<string> history = new List<string>();
 
         BrowserWindow win;
         List<Disposeable> resources = new List<Disposeable>();
@@ -44,12 +45,13 @@ namespace SimpleExplorer
         public BrowserCore(BrowserWindow win)
         {
             this.win = win;
+            AeroManager.ApplyAero(win.getWindow());
             HUtilities.FixWebBrowserCompatibility();
         }
 
         public void Init()
         {
-            NavigateToString(BuiltinHtmlContents.Start);
+            win.NewTab();
         }
 
         public void OpenInternetOption()
@@ -60,7 +62,8 @@ namespace SimpleExplorer
 
         public void GoBack()
         {
-            win.getWebBrowser().GoBack();
+            WebBrowser w = win.getWebBrowser();
+            if(w != null) win.getWebBrowser().GoBack();
             RefreshButtonStatuses();
         }
 
@@ -92,10 +95,40 @@ namespace SimpleExplorer
         public void RefreshButtonStatuses()
         {
             Button btn = win.getBackButton();
-            if (btn != null) btn.IsEnabled = win.getWebBrowser().CanGoBack;
+            WebBrowser w = win.getWebBrowser();
+            if (btn != null && w != null) btn.IsEnabled = w.CanGoBack;
 
             btn = win.getForwardButton();
-            if (btn != null) btn.IsEnabled = win.getWebBrowser().CanGoForward;
+            if (btn != null && w != null) btn.IsEnabled = win.getWebBrowser().CanGoForward;
+        }
+
+        public void RefreshTitle()
+        {
+            string webheader = "";
+            string titles = "";
+
+            try
+            {
+                WebBrowser w = win.getWebBrowser();
+                if (w != null)
+                {
+                    webheader = ((dynamic)w.Document).Title;
+                    webheader = webheader.Trim();
+                }
+                titles = webheader + "";
+            }
+            catch (Exception ex)
+            {
+                Log(ex);
+            }
+            if (!titles.Equals("")) titles = titles + " - " + "Simple Explorer" + " v" + BrowserCore.VERSION;
+            else titles = "Simple Explorer" + " v" + BrowserCore.VERSION;
+
+            win.SetTitle(titles);
+
+            BrowserTab t = win.getActiveBrowserTab();
+            if (webheader == "") webheader = "[제목없음]";
+            if (t != null) t.Header = webheader;
         }
 
         public void Navigate(string url)
@@ -105,6 +138,8 @@ namespace SimpleExplorer
 
         protected void Navigate(string url, int retryCount)
         {
+            WebBrowser w = win.getWebBrowser();
+            if (w == null) return;
             try
             {
                 win.getWebBrowser().Navigate(url);
@@ -123,14 +158,15 @@ namespace SimpleExplorer
             catch (Exception ex)
             {
                 MessageBox.Show("오류가 발생하였습니다.\n" + ex.ToString());
-                Console.WriteLine(ex.ToString());
+                Log(ex);
             }
             RefreshButtonStatuses();
         }
 
         public void NavigateToString(string html)
         {
-            win.getWebBrowser().NavigateToString(html);
+            WebBrowser w = win.getWebBrowser();
+            if(w != null) w.NavigateToString(html);
         }
 
         public void dispose()
@@ -159,6 +195,10 @@ namespace SimpleExplorer
             string uriStr = "";
             if (e.Uri != null) uriStr = e.Uri.ToString();
             win.SetUrlFieldText(uriStr);
+            if (uriStr != "")
+            {
+                history.Add(uriStr);
+            }
         }
 
         public void onSourceUpdated()
@@ -168,23 +208,33 @@ namespace SimpleExplorer
 
         public void onLoadCompleted()
         {
-            string titles = "";
-
-            try
-            {
-                titles = ((dynamic) win.getWebBrowser().Document).Title;
-                titles = titles.Trim();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            if (!titles.Equals("")) titles = titles + " - " + "Simple Explorer" + " v" + BrowserCore.VERSION;
-            else titles = "Simple Explorer" + " v" + BrowserCore.VERSION;
-
-            win.SetTitle(titles);
-
+            RefreshTitle();
             RefreshButtonStatuses();
+        }
+
+        public void onTabChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefreshTitle();
+            RefreshButtonStatuses();
+        }
+
+        public void onTabAdded(BrowserTab t)
+        {
+            NavigateToString(BuiltinHtmlContents.Start);
+            RefreshTitle();
+            RefreshButtonStatuses();
+        }
+
+        public void Shutdown()
+        {
+            if (win != null) { win.dispose(); win = null; }
+            System.Windows.Application.Current.Shutdown();
+        }
+
+        public void Log(object obj)
+        {
+            if (obj == null) obj = "null";
+            Console.WriteLine(obj.ToString());
         }
     }
 }

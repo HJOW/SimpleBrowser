@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -35,6 +37,17 @@ namespace SimpleExplorer
     public partial class SimpleWindow : Window, BrowserWindow
     {
         protected BrowserCore core;
+        protected ObservableCollection<BrowserTab> _browserTabs = new ObservableCollection<BrowserTab>();
+        public ObservableCollection<BrowserTab> browserTabs
+        {
+            get
+            {
+                var itemsView = (IEditableCollectionView)CollectionViewSource.GetDefaultView(_browserTabs);
+                itemsView.NewItemPlaceholderPosition = NewItemPlaceholderPosition.AtEnd;
+                return _browserTabs;
+            }
+        }
+
         public SimpleWindow()
         {
             InitializeComponent();
@@ -68,7 +81,7 @@ namespace SimpleExplorer
 
         private void MenuItem_Close_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Application.Current.Shutdown();
+            Shutdown();
         }
 
         private void tfUrl_KeyDown(object sender, KeyEventArgs e)
@@ -86,7 +99,9 @@ namespace SimpleExplorer
 
         public WebBrowser getWebBrowser()
         {
-            return webbrowser;
+            BrowserTab tabOne = getActiveBrowserTab();
+            if (tabOne == null) return null;
+            return tabOne.getWebBrowser();
         }
 
         public TextBox getUrlField()
@@ -131,8 +146,7 @@ namespace SimpleExplorer
 
         public void Shutdown()
         {
-            if (core != null) { core.dispose(); core = null; }
-            System.Windows.Application.Current.Shutdown();
+            core.Shutdown();
         }
 
         protected void windowMainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -146,24 +160,9 @@ namespace SimpleExplorer
             Shutdown();
         }
 
-        protected void webbrowser_Navigating(object sender, NavigatingCancelEventArgs e)
+        protected void tabctrl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            core.onNavigating(sender, e);
-        }
-
-        protected void webbrowser_Navigated(object sender, NavigationEventArgs e)
-        {
-            core.onNavigated(sender, e);
-        }
-
-        protected void webbrowser_SourceUpdated(object sender, DataTransferEventArgs e)
-        {
-            core.onSourceUpdated();
-        }
-
-        protected void webbrowser_LoadCompleted(object sender, NavigationEventArgs e)
-        {
-            core.onLoadCompleted();
+            core.onTabChanged(sender, e);
         }
 
         public void SetTitle(string title)
@@ -174,6 +173,52 @@ namespace SimpleExplorer
         public void SetUrlFieldText(string url)
         {
             if (getUrlField() != null) getUrlField().Text = url;
+        }
+
+        public void dispose()
+        {
+            for (int idx = 0; idx < browserTabs.Count; idx++)
+            {
+                BrowserTab tabOne = browserTabs[idx];
+                try { tabOne.dispose(); } catch (Exception tx) { core.Log(tx); }
+            }
+            core = null;
+        }
+
+        public List<BrowserTab> getBrowserTabs()
+        {
+            return null;
+        }
+
+        public BrowserTab getActiveBrowserTab()
+        {
+            int idx = getActiveBrowserTabIndex();
+            if (idx >= 0) return browserTabs[idx];
+            return null;
+        }
+
+        public int getActiveBrowserTabIndex()
+        {
+            return tabctrl.SelectedIndex;
+        }
+
+        public int getBrowserTabCount()
+        {
+            return browserTabs.Count;
+        }
+
+        public BrowserCore getCore()
+        {
+            return core;
+        }
+
+        public void NewTab()
+        {
+            BrowserTab t = new BrowserTab(this);
+            browserTabs.Add(t);
+            tabctrl.Items.Add(t);
+            tabctrl.SelectedIndex = browserTabs.Count - 1;
+            core.onTabAdded(t);
         }
     }
 }
