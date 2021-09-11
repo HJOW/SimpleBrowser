@@ -37,21 +37,12 @@ namespace SimpleExplorer
     public partial class SimpleWindow : Window, BrowserWindow
     {
         protected BrowserCore core;
-        protected ObservableCollection<BrowserTab> _browserTabs = new ObservableCollection<BrowserTab>();
-        public ObservableCollection<BrowserTab> browserTabs
-        {
-            get
-            {
-                var itemsView = (IEditableCollectionView)CollectionViewSource.GetDefaultView(_browserTabs);
-                itemsView.NewItemPlaceholderPosition = NewItemPlaceholderPosition.AtEnd;
-                return _browserTabs;
-            }
-        }
 
         public SimpleWindow()
         {
             InitializeComponent();
             core = new BrowserCore(this);
+            HideStatusBar();
         }
 
         private void btnGo_Click(object sender, RoutedEventArgs e)
@@ -152,6 +143,7 @@ namespace SimpleExplorer
         protected void windowMainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             this.Title = "Simple Explorer" + " v" + BrowserCore.VERSION;
+            tabctrl.Init(this);
             core.Init();
         }
 
@@ -160,7 +152,7 @@ namespace SimpleExplorer
             Shutdown();
         }
 
-        protected void tabctrl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void onTabSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             core.onTabChanged(sender, e);
         }
@@ -177,34 +169,28 @@ namespace SimpleExplorer
 
         public void dispose()
         {
-            for (int idx = 0; idx < browserTabs.Count; idx++)
-            {
-                BrowserTab tabOne = browserTabs[idx];
-                try { tabOne.dispose(); } catch (Exception tx) { core.Log(tx); }
-            }
+            tabctrl.dispose();
             core = null;
         }
 
         public List<BrowserTab> getBrowserTabs()
         {
-            return null;
+            return tabctrl.getBrowserTabs();
         }
 
         public BrowserTab getActiveBrowserTab()
         {
-            int idx = getActiveBrowserTabIndex();
-            if (idx >= 0) return browserTabs[idx];
-            return null;
+            return tabctrl.getActiveBrowserTab();
         }
 
         public int getActiveBrowserTabIndex()
         {
-            return tabctrl.SelectedIndex;
+            return tabctrl.getActiveBrowserTabIndex();
         }
 
         public int getBrowserTabCount()
         {
-            return browserTabs.Count;
+            return tabctrl.getBrowserTabCount();
         }
 
         public BrowserCore getCore()
@@ -214,11 +200,40 @@ namespace SimpleExplorer
 
         public void NewTab()
         {
-            BrowserTab t = new BrowserTab(this);
-            browserTabs.Add(t);
-            tabctrl.Items.Add(t);
-            tabctrl.SelectedIndex = browserTabs.Count - 1;
-            core.onTabAdded(t);
+            tabctrl.NewTab();
+        }
+
+        private void MenuItem_Click_Theme_Simple(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.Theme = "simple";
+            menu_setting_theme_simple.IsChecked = true;
+            menu_setting_theme_ribbon.IsChecked = false;
+        }
+
+        private void MenuItem_Click_Theme_Ribbon(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.Theme = "ribbon";
+            menu_setting_theme_simple.IsChecked = false;
+            menu_setting_theme_ribbon.IsChecked = true;
+        }
+
+        private void MenuItem_Click_Help_About(object sender, RoutedEventArgs e)
+        {
+            AboutWindow abWin = new AboutWindow();
+            core.ProcessWindow(abWin);
+            abWin.ShowDialog();
+        }
+
+        public void HideStatusBar()
+        {
+            dockStatusBar.Visibility = System.Windows.Visibility.Hidden;
+            rowdefStatus.Height = new GridLength(0, GridUnitType.Star);
+        }
+
+        public void ShowStatusBar()
+        {
+            dockStatusBar.Visibility = System.Windows.Visibility.Visible;
+            rowdefStatus.Height = new GridLength(20, GridUnitType.Star);
         }
     }
 }

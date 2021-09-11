@@ -1,0 +1,22 @@
+﻿<Window x:Class="SimpleExplorer.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Simple Explorer 에 대하여..." Height="250" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="1" Grid.Column="1" Content="Simple Explorer" Height="111" HorizontalAlignment="Center" Name="lb_title" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" />
+        <Label Grid.Row="2" Grid.Column="1" Content="v 0.0.1" Height="111" HorizontalAlignment="Right" Name="lb_ver" VerticalAlignment="Center" FontSize="15" />
+    </Grid>
+</Window>

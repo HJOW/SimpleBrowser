@@ -38,21 +38,12 @@ namespace SimpleExplorer
     public partial class RibbonBasedWindow : RibbonWindow, BrowserWindow
     {
         protected BrowserCore core;
-        protected ObservableCollection<BrowserTab> _browserTabs = new ObservableCollection<BrowserTab>();
-        public ObservableCollection<BrowserTab> browserTabs
-        {
-            get
-            {
-                var itemsView = (IEditableCollectionView)CollectionViewSource.GetDefaultView(_browserTabs);
-                itemsView.NewItemPlaceholderPosition = NewItemPlaceholderPosition.AtEnd;
-                return _browserTabs;
-            }
-        }
 
         public RibbonBasedWindow()
         {
-            core = new BrowserCore(this);
             InitializeComponent();
+            core = new BrowserCore(this);
+            HideStatusBar();
         }
 
         private void RibbonApplicationMenuItem_ap_exit_Click(object sender, ExecutedRoutedEventArgs e)
@@ -172,12 +163,13 @@ namespace SimpleExplorer
         protected void windowMainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             this.Title = "Simple Explorer" + " v" + BrowserCore.VERSION;
+            tabctrl.Init(this);
             core.Init();
         }
 
         protected void BrowserWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Shutdown();
+            if(core != null) Shutdown();
         }
 
         public void SetTitle(string title)
@@ -192,34 +184,28 @@ namespace SimpleExplorer
 
         public void dispose()
         {
-            for (int idx = 0; idx < browserTabs.Count; idx++)
-            {
-                BrowserTab tabOne = browserTabs[idx];
-                try { tabOne.dispose(); } catch (Exception tx) { core.Log(tx); }
-            }
+            tabctrl.dispose();
             core = null;
         }
 
         public List<BrowserTab> getBrowserTabs()
         {
-            return null;
+            return tabctrl.getBrowserTabs();
         }
 
         public BrowserTab getActiveBrowserTab()
         {
-            int idx = getActiveBrowserTabIndex();
-            if (idx >= 0) return browserTabs[idx];
-            return null;
+            return tabctrl.getActiveBrowserTab();
         }
 
         public int getActiveBrowserTabIndex()
         {
-            return tabctrl.SelectedIndex;
+            return tabctrl.getActiveBrowserTabIndex();
         }
 
         public int getBrowserTabCount()
         {
-            return browserTabs.Count;
+            return tabctrl.getBrowserTabCount();
         }
 
         public BrowserCore getCore()
@@ -229,16 +215,45 @@ namespace SimpleExplorer
 
         public void NewTab()
         {
-            BrowserTab t = new BrowserTab(this);
-            browserTabs.Add(t);
-            tabctrl.Items.Add(t);
-            tabctrl.SelectedIndex = browserTabs.Count - 1;
-            core.onTabAdded(t);
+            tabctrl.NewTab();
         }
 
-        protected void tabctrl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void onTabSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             core.onTabChanged(sender, e);
+        }
+
+        private void RibbonCommand_ThemeSimpleClicked(object sender, ExecutedRoutedEventArgs e)
+        {
+            btnThemeRibbon.IsChecked = false;
+            btnThemeSimple.IsChecked = true;
+            Properties.Settings.Default.Theme = "simple";
+        }
+
+        private void RibbonCommand_ThemeRibbonClicked(object sender, ExecutedRoutedEventArgs e)
+        {
+            btnThemeRibbon.IsChecked = true;
+            btnThemeSimple.IsChecked = false;
+            Properties.Settings.Default.Theme = "ribbon";
+        }
+
+        private void RibbonCommand_AboutClicked(object sender, ExecutedRoutedEventArgs e)
+        {
+            AboutWindow abWin = new AboutWindow();
+            core.ProcessWindow(abWin);
+            abWin.ShowDialog();
+        }
+
+        public void HideStatusBar()
+        {
+            dockStatusBar.Visibility = System.Windows.Visibility.Hidden;
+            rowdefStatus.Height = new GridLength(0, GridUnitType.Star);
+        }
+
+        public void ShowStatusBar()
+        {
+            dockStatusBar.Visibility = System.Windows.Visibility.Visible;
+            rowdefStatus.Height = new GridLength(20, GridUnitType.Star);
         }
     }
 }

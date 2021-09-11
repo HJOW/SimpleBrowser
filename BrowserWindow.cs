@@ -54,5 +54,8 @@ namespace SimpleExplorer
         void Shutdown();
         void SetTitle(string title);
         void SetUrlFieldText(string url);
+        void onTabSelectionChanged(object sender, SelectionChangedEventArgs e);
+        void HideStatusBar();
+        void ShowStatusBar();
     }
 }

@@ -36,13 +36,22 @@ namespace SimpleExplorer
     public partial class BrowserTab : TabItem, Disposeable
     {
         protected BrowserWindow win;
-        public BrowserTab(BrowserWindow win)
+        protected BrowserTabControl tabCtrl;
+        protected CloseableTabItemHeader headerObj;
+        public BrowserTab(BrowserWindow win, BrowserTabControl tabCtrl)
         {
             InitializeComponent();
             this.win = win;
+            this.tabCtrl = tabCtrl;
+
+            headerObj = new CloseableTabItemHeader();
+            headerObj.Init(tabCtrl, this);
+            Header = this.headerObj;
         }
         public void dispose()
         {
+            if (headerObj != null) headerObj.dispose();
+            this.headerObj = null;
             this.win = null;
         }
         protected void webbrowser_Navigating(object sender, NavigatingCancelEventArgs e)
@@ -68,6 +77,17 @@ namespace SimpleExplorer
         public WebBrowser getWebBrowser()
         {
             return webbrowser;
+        }
+
+        public void onSelectionChanged(bool selecteds)
+        {
+            if (headerObj != null) headerObj.onSelectionChanged(selecteds);
+        }
+
+        public void setHeader(string text)
+        {
+            if (headerObj == null) Header = text;
+            else headerObj.Header = text;
         }
     }
 }

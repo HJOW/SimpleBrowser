@@ -28,6 +28,8 @@ limitations under the License.
             </ResourceDictionary.MergedDictionaries>
             <r:RibbonCommand x:Key="ribbon_appmenu_root" LabelTitle="Simple Explorer" SmallImageSource="/resources/material-design-icons/icon_small_settings.png" LargeImageSource="/resources/browser_internet_network_32.png"/>
             <r:RibbonCommand x:Key="ribbon_group_home_basic" LabelTitle="컨트롤" LabelDescription="컨트롤"/>
+            <r:RibbonCommand x:Key="ribbon_group_settings_theme" LabelTitle="테마 (재시작 후 적용)" LabelDescription="테마 (재시작 후 적용)"/>
+            <r:RibbonCommand x:Key="ribbon_group_settings_about" LabelTitle="정보" LabelDescription="정보"/>
             <r:RibbonCommand x:Key="ribbon_button_ap_exit" LabelTitle="종료" SmallImageSource="/resources/material-design-icons/icon_exit.png" CanExecute="RibbonCommand_CanExecute" Executed="RibbonApplicationMenuItem_ap_exit_Click"/>
             <r:RibbonCommand x:Key="ribbon_button_ap_print" LabelTitle="인쇄" LargeImageSource="/resources/material-design-icons/icon_print.png" CanExecute="RibbonCommand_CanExecute" Executed="RibbonButton_ap_print_Click"/>
             <r:RibbonCommand x:Key="ribbon_button_ap_ie_option" LabelTitle="인터넷 옵션" LargeImageSource="/resources/material-design-icons/icon_settings.png" CanExecute="RibbonCommand_CanExecute" Executed="RibbonButton_ap_ie_option_Click"/>
@@ -38,6 +40,9 @@ limitations under the License.
             <r:RibbonCommand x:Key="ribbon_textbox_home_url_go" Executed="RibbonButton_home_go_Click" CanExecute="RibbonCommand_CanExecute" SmallImageSource="/resources/material-design-icons/icon_go.png"/>
             <r:RibbonCommand x:Key="ribbon_button_home_ie_option" LabelTitle="인터넷 옵션" LargeImageSource="/resources/material-design-icons/icon_settings.png" CanExecute="RibbonCommand_CanExecute" Executed="RibbonButton_ap_ie_option_Click"/>
             <r:RibbonCommand x:Key="ribbon_button_home_print" LabelTitle="인쇄" LargeImageSource="/resources/material-design-icons/icon_print.png" CanExecute="RibbonCommand_CanExecute" Executed="RibbonButton_ap_print_Click"/>
+            <r:RibbonCommand x:Key="ribbon_button_settings_theme_simple" LabelTitle="간단" LargeImageSource="/resources/material-design-icons/icon_window.png" CanExecute="RibbonCommand_CanExecute" Executed="RibbonCommand_ThemeSimpleClicked"/>
+            <r:RibbonCommand x:Key="ribbon_button_settings_theme_ribbon" LabelTitle="리본" LargeImageSource="/resources/material-design-icons/icon_window.png" CanExecute="RibbonCommand_CanExecute" Executed="RibbonCommand_ThemeRibbonClicked"/>
+            <r:RibbonCommand x:Key="ribbon_button_settings_about" LabelTitle="Simple Explorer 에 대하여" LargeImageSource="/resources/material-design-icons/icon_help2.png" CanExecute="RibbonCommand_CanExecute" Executed="RibbonCommand_AboutClicked"/>
             <Style TargetType="{x:Type r:RibbonTextBox}">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -74,7 +79,7 @@ limitations under the License.
                     <r:RibbonApplicationMenuItem Command="{StaticResource ribbon_button_ap_ie_option}"/>
                 </r:RibbonApplicationMenu>
             </r:Ribbon.ApplicationMenu>
-            <r:RibbonTab Name="홈" Uid="rt_Home" Label="홈">
+            <r:RibbonTab Name="rt_Home" Uid="rt_Home" Label="홈">
                 <r:RibbonGroup Command="{StaticResource ribbon_group_home_basic}">
                     <r:RibbonButton Command="{StaticResource ribbon_button_home_back}"    Uid="btnBack"    x:Name="btnBack"/>
                     <r:RibbonButton Command="{StaticResource ribbon_button_home_refresh}" Uid="btnRefresh" x:Name="btnRefresh"/>
@@ -87,19 +92,28 @@ limitations under the License.
                     <r:RibbonButton Command="{StaticResource ribbon_button_home_print}"   Uid="btnPrint" x:Name="btnPrint"/>
                 </r:RibbonGroup>
             </r:RibbonTab>
+            <r:RibbonTab Name="rt_Settings" Uid="rt_Settings" Label="설정">
+                <r:RibbonGroup Command="{StaticResource ribbon_group_settings_theme}">
+                    <r:RibbonToggleButton Command="{StaticResource ribbon_button_settings_theme_simple}" Uid="btnThemeSimple" x:Name="btnThemeSimple"/>
+                    <r:RibbonToggleButton Command="{StaticResource ribbon_button_settings_theme_ribbon}" Uid="btnThemeRibbon" x:Name="btnThemeRibbon" IsChecked="True"/>
+                </r:RibbonGroup>
+                <r:RibbonGroup Command="{StaticResource ribbon_group_settings_about}">
+                    <r:RibbonButton Command="{StaticResource ribbon_button_settings_about}" Uid="btnAbout" x:Name="btnAbout"/>
+                </r:RibbonGroup>
+            </r:RibbonTab>
         </r:Ribbon>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="20" x:Name="rowdefStatus"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <base:BrowserTabControl Grid.Column="0" Grid.Row="0" x:Name="tabctrl" Uid="tabctrl" SelectionChanged="tabctrl_SelectionChanged" />
-            <DockPanel Grid.Column="0" Grid.Row="1">
+            <base:BrowserTabControl Grid.Column="0" Grid.Row="0" x:Name="tabctrl" Uid="tabctrl"/>
+            <DockPanel Grid.Column="0" Grid.Row="1" Name="dockStatusBar" Uid="dockStatusBar">
                 <ProgressBar DockPanel.Dock="Right" Width="100" Name="progBar" Uid="progBar"></ProgressBar>
-                <TextBox Height="30" Name="tfStatus" Uid="tfStatus" Width="auto" IsReadOnly="True" />
+                <TextBox Height="20" Name="tfStatus" Uid="tfStatus" Width="auto" IsReadOnly="True" />
             </DockPanel>
         </Grid>
     </DockPanel>

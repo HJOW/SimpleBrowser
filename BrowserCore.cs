@@ -45,13 +45,18 @@ namespace SimpleExplorer
         public BrowserCore(BrowserWindow win)
         {
             this.win = win;
-            AeroManager.ApplyAero(win.getWindow());
+            ProcessWindow(win.getWindow());
             HUtilities.FixWebBrowserCompatibility();
+        }
+
+        public void ProcessWindow(Window win)
+        {
+            AeroManager.ApplyAero(win);
         }
 
         public void Init()
         {
-            win.NewTab();
+            
         }
 
         public void OpenInternetOption()
@@ -128,7 +133,7 @@ namespace SimpleExplorer
 
             BrowserTab t = win.getActiveBrowserTab();
             if (webheader == "") webheader = "[제목없음]";
-            if (t != null) t.Header = webheader;
+            if (t != null) t.setHeader(webheader);
         }
 
         public void Navigate(string url)
@@ -228,6 +233,7 @@ namespace SimpleExplorer
         public void Shutdown()
         {
             if (win != null) { win.dispose(); win = null; }
+            Properties.Settings.Default.Save();
             System.Windows.Application.Current.Shutdown();
         }
 

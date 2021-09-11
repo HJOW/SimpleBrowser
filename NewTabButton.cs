@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
-using System.Configuration;
-using System.Data;
 using System.Linq;
+using System.Text;
 using System.Windows;
-using System.Reflection;
-using System.Windows.Resources;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -15,7 +11,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
 /*
  Copyright 2021 HJOW
 
@@ -33,20 +28,11 @@ limitations under the License.
  */
 namespace SimpleExplorer
 {
-    /// <summary>
-    /// App.xaml에 대한 상호 작용 논리
-    /// </summary>
-    public partial class App : Application
+    public class NewTabButton : TabItem
     {
-        private void Application_Startup(object sender, StartupEventArgs e)
+        public NewTabButton() : base()
         {
-            string theme = SimpleExplorer.Properties.Settings.Default.Theme;
-            if (theme == null) theme = "default";
-            theme = theme.Trim().ToLower();
-
-            if (theme == "simple") StartupUri = new Uri("SimpleWindow.xaml", UriKind.Relative);
-            else StartupUri = new Uri("RibbonBasedWindow.xaml", UriKind.Relative);
-
+            this.Header = "+";
         }
     }
 }

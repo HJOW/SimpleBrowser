@@ -26,7 +26,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>0.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -105,6 +105,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AeroManager.cs" />
     <Compile Include="BrowserTab.xaml.cs">
       <DependentUpon>BrowserTab.xaml</DependentUpon>
@@ -113,14 +116,26 @@
       <DependentUpon>BrowserTabControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="BuiltinHtmlContents.cs" />
+    <Compile Include="CloseableTabItemHeader.xaml.cs">
+      <DependentUpon>CloseableTabItemHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NewTabButton.cs" />
     <Compile Include="RibbonBasedWindow.xaml.cs">
       <DependentUpon>RibbonBasedWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BrowserTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BrowserTabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CloseableTabItemHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -163,6 +178,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="cert_hjow.pfx" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -238,6 +254,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\browser_internet_network_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\material-design-icons\icon_window.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\material-design-icons\icon_help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\material-design-icons\icon_help2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
