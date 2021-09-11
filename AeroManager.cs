@@ -14,6 +14,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Interop;
 
+/*
+ Original Source : https://docs.microsoft.com/ko-kr/dotnet/desktop/wpf/graphics-multimedia/extend-glass-frame-into-a-wpf-application?view=netframeworkdesktop-4.8
+ */
+
 namespace SimpleExplorer
 {
     class NonClientRegionAPI
