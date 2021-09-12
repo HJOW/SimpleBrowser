@@ -34,10 +34,12 @@ limitations under the License.
 
 namespace SimpleExplorer
 {
-    public class BrowserCore : Disposeable
+    public class BrowserCore : Disposeable, Logger
     {
-        public const string VERSION = "0.0.1";
-        protected List<string> history = new List<string>();
+        public const string  VERSION = "0.0.1";
+        private static List<Logger> LOG_EVENTS = new List<Logger>();
+
+        protected List<ConnectHistory> history = new List<ConnectHistory>();
 
         BrowserWindow win;
         List<Disposeable> resources = new List<Disposeable>();
@@ -46,6 +48,7 @@ namespace SimpleExplorer
         {
             this.win = win;
             ProcessWindow(win.getWindow());
+            RegisterLogger(this);
             HUtilities.FixWebBrowserCompatibility();
         }
 
@@ -158,7 +161,7 @@ namespace SimpleExplorer
                     MessageBox.Show("웹 주소가 올바르지 않습니다.");
                     if (win.getUrlField() != null) win.getUrlField().Focus();
                 }
-                Console.WriteLine(ex.ToString());
+                Log(ex.ToString());
             }
             catch (Exception ex)
             {
@@ -200,9 +203,30 @@ namespace SimpleExplorer
             string uriStr = "";
             if (e.Uri != null) uriStr = e.Uri.ToString();
             win.SetUrlFieldText(uriStr);
+
+            Log("[navigated]" + uriStr + "[/navigated]");
+
             if (uriStr != "")
             {
-                history.Add(uriStr);
+                // 이미 히스토리에 이력이 있으면 넣지 않기
+                foreach(ConnectHistory h in history)
+                {
+                    if (h.Url == uriStr) return;
+                }
+
+                ConnectHistory hist = new ConnectHistory();
+                hist.Url   = uriStr;
+                hist.Title = uriStr;
+                try
+                {
+                    hist.Title = (win.getWebBrowser().Document as dynamic).Title;
+                }
+                catch (Exception ex)
+                {
+                    Log(ex.ToString());
+                }
+                history.Add(hist);
+                win.RefreshConnectHistory(history);
             }
         }
 
@@ -230,9 +254,15 @@ namespace SimpleExplorer
             RefreshButtonStatuses();
         }
 
+        public int GetConnectionHistoryCount()
+        {
+            return history.Count;
+        }
+
         public void Shutdown()
         {
             if (win != null) { win.dispose(); win = null; }
+            UnregisterLogger(this);
             Properties.Settings.Default.Save();
             System.Windows.Application.Current.Shutdown();
         }
@@ -241,6 +271,28 @@ namespace SimpleExplorer
         {
             if (obj == null) obj = "null";
             Console.WriteLine(obj.ToString());
+        }
+
+        public static void RegisterLogger(Logger logger)
+        {
+            if (LOG_EVENTS.Contains(logger)) return;
+            LOG_EVENTS.Add(logger);
+        }
+
+        public static void UnregisterLogger(Logger logger)
+        {
+            LOG_EVENTS.Remove(logger);
+        }
+
+        public static void PrintLog(object obj)
+        {
+            if (obj == null) obj = "null";
+            Console.WriteLine(obj.ToString());
+            foreach (Logger l in LOG_EVENTS)
+            {
+                try { l.Log(obj); }
+                catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+            }
         }
     }
 }

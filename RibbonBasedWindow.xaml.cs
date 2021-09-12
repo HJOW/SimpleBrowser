@@ -38,6 +38,8 @@ namespace SimpleExplorer
     public partial class RibbonBasedWindow : RibbonWindow, BrowserWindow
     {
         protected BrowserCore core;
+        protected LogWindow logViewer = new LogWindow();
+        protected List<RibbonConnectionHistoryMenuItem> connHistBtns = new List<RibbonConnectionHistoryMenuItem>();
 
         public RibbonBasedWindow()
         {
@@ -184,6 +186,7 @@ namespace SimpleExplorer
 
         public void dispose()
         {
+            DisposeConnectHistoryButtons();
             tabctrl.dispose();
             core = null;
         }
@@ -239,9 +242,9 @@ namespace SimpleExplorer
 
         private void RibbonCommand_AboutClicked(object sender, ExecutedRoutedEventArgs e)
         {
-            AboutWindow abWin = new AboutWindow();
+            AboutWindow abWin = new AboutWindow(core);
             core.ProcessWindow(abWin);
-            abWin.ShowDialog();
+            abWin.Show();
         }
 
         public void HideStatusBar()
@@ -254,6 +257,41 @@ namespace SimpleExplorer
         {
             dockStatusBar.Visibility = System.Windows.Visibility.Visible;
             rowdefStatus.Height = new GridLength(20, GridUnitType.Star);
+        }
+
+        public void Log(object msg)
+        {
+            if (logViewer != null) logViewer.Log(msg);
+        }
+
+        private void RibbonCommand_LogViewerClicked(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (logViewer != null) logViewer.Show();
+        }
+
+        private void RibbonCommand_connHist_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = (core.GetConnectionHistoryCount() >= 1);
+        }
+
+        protected void DisposeConnectHistoryButtons()
+        {
+            foreach (RibbonConnectionHistoryMenuItem c in connHistBtns)
+            {
+                c.dispose();
+            }
+            connHistBtns.Clear();
+            btnConnHist.Items.Clear();
+        }
+
+        public void RefreshConnectHistory(List<ConnectHistory> lists)
+        {
+            DisposeConnectHistoryButtons();
+            btnConnHist.Items.Clear();
+            foreach (ConnectHistory h in lists)
+            {
+                btnConnHist.Items.Add(new RibbonConnectionHistoryMenuItem(core, h));
+            }
         }
     }
 }

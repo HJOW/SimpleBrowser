@@ -76,7 +76,8 @@ namespace SimpleExplorer
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                BrowserCore.PrintLog(ex.ToString());
+                Application.Current.MainWindow.Background = Brushes.White;
             }
         }
     }

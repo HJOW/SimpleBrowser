@@ -37,6 +37,7 @@ namespace SimpleExplorer
     public partial class SimpleWindow : Window, BrowserWindow
     {
         protected BrowserCore core;
+        protected LogWindow logViewer = new LogWindow();
 
         public SimpleWindow()
         {
@@ -170,6 +171,7 @@ namespace SimpleExplorer
         public void dispose()
         {
             tabctrl.dispose();
+            logViewer = null;
             core = null;
         }
 
@@ -219,9 +221,9 @@ namespace SimpleExplorer
 
         private void MenuItem_Click_Help_About(object sender, RoutedEventArgs e)
         {
-            AboutWindow abWin = new AboutWindow();
+            AboutWindow abWin = new AboutWindow(core);
             core.ProcessWindow(abWin);
-            abWin.ShowDialog();
+            abWin.Show();
         }
 
         public void HideStatusBar()
@@ -234,6 +236,21 @@ namespace SimpleExplorer
         {
             dockStatusBar.Visibility = System.Windows.Visibility.Visible;
             rowdefStatus.Height = new GridLength(20, GridUnitType.Star);
+        }
+
+        public void Log(object msg)
+        {
+            if (logViewer != null) logViewer.Log(msg);
+        }
+
+        private void MenuItem_LogViewer_Click(object sender, RoutedEventArgs e)
+        {
+            if (logViewer != null) logViewer.Show();
+        }
+
+        public void RefreshConnectHistory(List<ConnectHistory> lists)
+        {
+
         }
     }
 }

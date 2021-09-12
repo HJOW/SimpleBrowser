@@ -26,7 +26,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>0.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -119,7 +119,13 @@
     <Compile Include="CloseableTabItemHeader.xaml.cs">
       <DependentUpon>CloseableTabItemHeader.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ConnectHistory.cs" />
+    <Compile Include="Licenses.cs" />
+    <Compile Include="LogWindow.xaml.cs">
+      <DependentUpon>LogWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NewTabButton.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="RibbonBasedWindow.xaml.cs">
       <DependentUpon>RibbonBasedWindow.xaml</DependentUpon>
     </Compile>
@@ -139,6 +145,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="LogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RibbonConnectionHistoryMenuItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SimpleWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -151,6 +165,9 @@
     <Compile Include="BrowserWindow.cs" />
     <Compile Include="Disposeable.cs" />
     <Compile Include="HUtilities.cs" />
+    <Compile Include="RibbonConnectionHistoryMenuItem.xaml.cs">
+      <DependentUpon>RibbonConnectionHistoryMenuItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SimpleWindow.xaml.cs">
       <DependentUpon>SimpleWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -247,15 +264,6 @@
     <Resource Include="resources\material-design-icons\icon_print.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\browser_internet_network_16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="resources\browser_internet_network_64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="resources\browser_internet_network_32.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="resources\material-design-icons\icon_window.png" />
   </ItemGroup>
   <ItemGroup>
@@ -263,6 +271,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\material-design-icons\icon_help2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\material-design-icons\icon_history.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\material-design-icons\icon_theme_ribbon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\material-design-icons\icon_small_theme_ribbon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\material-design-icons\icon_logs.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

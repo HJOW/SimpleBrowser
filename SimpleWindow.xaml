@@ -21,7 +21,10 @@ limitations under the License.
     <Window.Resources>
         <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PresentationFramework.Aero;component/themes/Aero.NormalColor.xaml" />
+                <ResourceDictionary Source="/RibbonControlsLibrary;component/Themes/Office2007Blue.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
     <DockPanel>
@@ -39,6 +42,7 @@ limitations under the License.
                 <MenuItem Header="파일">
                     <MenuItem Header="인터넷 옵션" Click="MenuItem_IEOption_Click" />
                     <MenuItem Header="인쇄" Click="MenuItem_Print_Click" />
+                    <MenuItem Header="로그" Click="MenuItem_LogViewer_Click" />
                     <MenuItem Header="종료" Click="MenuItem_Close_Click" />
                 </MenuItem>
                 <MenuItem Header="설정">

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Windows.Controls.Ribbon;
 
 /*
  Copyright 2021 HJOW
@@ -27,52 +28,37 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-
 namespace SimpleExplorer
 {
     /// <summary>
-    /// CloseableTabItemHeader.xaml에 대한 상호 작용 논리
+    /// RibbonConnectionHistoryMenuItem.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class CloseableTabItemHeader : UserControl, Disposeable
+    public partial class RibbonConnectionHistoryMenuItem : RibbonMenuItem, Disposeable
     {
-        protected BrowserTabControl tabCtrl;
-        protected BrowserTab tab;
-        public string Header
-        {
-            get
-            {
-                return label_TabTitle.Content.ToString();
-            }
-            set
-            {
-                label_TabTitle.Content = value.ToString();
-            }
-        }
-        public void Init(BrowserTabControl tabCtrl, BrowserTab tab)
-        {
-            this.tabCtrl = tabCtrl;
-            this.tab = tab;
-        }
-        public CloseableTabItemHeader()
+        protected ConnectHistory history;
+        protected BrowserCore core;
+        public RibbonConnectionHistoryMenuItem(BrowserCore core, ConnectHistory hist)
         {
             InitializeComponent();
+            this.core = core;
+            this.history = hist;
+            this.Header = hist.Title;
         }
 
-        private void button_close_Click(object sender, RoutedEventArgs e)
+        public ConnectHistory GetHistory()
         {
-            tabCtrl.RemoveBrowserTab(tab);
+            return history;
         }
 
         public void dispose()
         {
-            tabCtrl = null;
-            tab = null;
+            core = null;
+            history = null;
         }
 
-        public void onSelectionChanged(bool selecteds)
+        private void RibbonMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (selecteds) label_TabTitle.FontWeight = FontWeights.Bold;
-            else label_TabTitle.FontWeight = FontWeights.Medium;
+            core.Navigate(history.Url);
         }
     }
 }

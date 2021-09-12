@@ -57,5 +57,7 @@ namespace SimpleExplorer
         void onTabSelectionChanged(object sender, SelectionChangedEventArgs e);
         void HideStatusBar();
         void ShowStatusBar();
+        void RefreshConnectHistory(List<ConnectHistory> lists);
+        void Log(object msg);
     }
 }

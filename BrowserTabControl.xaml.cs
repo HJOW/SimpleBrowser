@@ -147,7 +147,7 @@ namespace SimpleExplorer
             foreach (TabItem t in browserTabs)
             {
                 try { if (t is Disposeable) (t as Disposeable).dispose(); }
-                catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+                catch (Exception ex) { BrowserCore.PrintLog(ex.ToString()); }
             }
             win = null;
         }
