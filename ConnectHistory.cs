@@ -22,7 +22,43 @@ namespace SimpleExplorer
 {
     public class ConnectHistory
     {
+        protected string inputDate;
+        public ConnectHistory()
+        {
+            inputDate = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+        }
+        public ConnectHistory(string stringifiedContent) : this()
+        {
+            if (stringifiedContent == null) return;
+            string[] splits = stringifiedContent.Split('\n');
+            this.Url = splits[0];
+            if (splits.Length >= 2) inputDate = splits[1];
+            this.Title = "";
+            if (splits.Length >= 3)
+            {
+                string lineCollectors = "";
+
+                for (int idx = 2; idx < splits.Length; idx++)
+                {
+                    string lineOne = splits[idx];
+                    lineCollectors += lineOne + "\n";
+                }
+
+                this.Title = lineCollectors.Trim();
+            }
+        }
         public string Url { get; set; }
         public string Title { get; set; }
+        public string InputDate
+        {
+            get
+            {
+                return inputDate;
+            }
+        }
+        public override string ToString()
+        {
+            return this.Url + "\n" + this.inputDate + "\n" + this.Title;
+        }
     }
 }

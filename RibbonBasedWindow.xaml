@@ -38,6 +38,7 @@ limitations under the License.
             <r:RibbonCommand x:Key="ribbon_button_home_back" LabelTitle="뒤로" LargeImageSource="/resources/material-design-icons/icon_back.png" CanExecute="RibbonCommand_CanGoBack" Executed="RibbonButton_home_back_Click"/>
             <r:RibbonCommand x:Key="ribbon_button_home_front" LabelTitle="앞으로" LargeImageSource="/resources/material-design-icons/icon_forward.png" CanExecute="RibbonCommand_CanGoForward" Executed="RibbonButton_home_front_Click"/>
             <r:RibbonCommand x:Key="ribbon_button_home_refresh" LabelTitle="새로고침" LargeImageSource="/resources/material-design-icons/icon_refresh.png" CanExecute="RibbonCommand_CanExecute" Executed="RibbonButton_home_refresh_Click"/>
+            <r:RibbonCommand x:Key="ribbon_textbox_home_btn_favorites" LabelTitle="즐겨찾기" LabelDescription="즐겨찾기" SmallImageSource="/resources/material-design-icons/icon_favorite.png"/>
             <r:RibbonCommand x:Key="ribbon_textbox_home_url"/>
             <r:RibbonCommand x:Key="ribbon_textbox_home_url_go" Executed="RibbonButton_home_go_Click" CanExecute="RibbonCommand_CanExecute" SmallImageSource="/resources/material-design-icons/icon_go.png"/>
             <r:RibbonCommand x:Key="ribbon_button_home_ie_option" LabelTitle="인터넷 옵션" LargeImageSource="/resources/material-design-icons/icon_settings.png" CanExecute="RibbonCommand_CanExecute" Executed="RibbonButton_ap_ie_option_Click"/>
@@ -88,6 +89,9 @@ limitations under the License.
                     <r:RibbonButton Command="{StaticResource ribbon_button_home_back}"    Uid="btnBack"    x:Name="btnBack"/>
                     <r:RibbonButton Command="{StaticResource ribbon_button_home_refresh}" Uid="btnRefresh" x:Name="btnRefresh"/>
                     <r:RibbonButton Command="{StaticResource ribbon_button_home_front}"   Uid="btnForward" x:Name="btnForward"/>
+                    <r:RibbonControlGroup>
+                        <r:RibbonSplitButton Command="{StaticResource ribbon_textbox_home_btn_favorites}" Content="즐겨찾기" x:Name="btnFavorites"/>
+                    </r:RibbonControlGroup>
                     <r:RibbonControlGroup>
                         <r:RibbonTextBox Command="{StaticResource ribbon_textbox_home_url}" Width="300" x:Name="tfUrl" Uid="tfUrl" KeyDown="tfUrl_KeyDown" />
                         <r:RibbonButton Command="{StaticResource ribbon_textbox_home_url_go}" Uid="btnGo" x:Name="btnGo"/>

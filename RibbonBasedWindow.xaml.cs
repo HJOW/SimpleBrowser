@@ -293,5 +293,10 @@ namespace SimpleExplorer
                 btnConnHist.Items.Add(new RibbonConnectionHistoryMenuItem(core, h));
             }
         }
+
+        public void RefreshFavorites(List<ConnectHistory> lists)
+        {
+
+        }
     }
 }

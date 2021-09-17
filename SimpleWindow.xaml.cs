@@ -252,5 +252,10 @@ namespace SimpleExplorer
         {
 
         }
+
+        public void RefreshFavorites(List<ConnectHistory> lists)
+        {
+
+        }
     }
 }

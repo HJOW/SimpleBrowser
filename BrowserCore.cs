@@ -39,7 +39,9 @@ namespace SimpleExplorer
         public const string  VERSION = "0.0.1";
         private static List<Logger> LOG_EVENTS = new List<Logger>();
 
+        protected int historyMaximumCount = 100;
         protected List<ConnectHistory> history = new List<ConnectHistory>();
+        protected List<ConnectHistory> favorites = new List<ConnectHistory>();
 
         BrowserWindow win;
         List<Disposeable> resources = new List<Disposeable>();
@@ -59,7 +61,9 @@ namespace SimpleExplorer
 
         public void Init()
         {
-            
+            LoadResources(false);
+            win.RefreshConnectHistory(history);
+            win.RefreshFavorites(favorites);
         }
 
         public void OpenInternetOption()
@@ -226,7 +230,17 @@ namespace SimpleExplorer
                     Log(ex.ToString());
                 }
                 history.Add(hist);
+                DeleteOldHistory();
                 win.RefreshConnectHistory(history);
+            }
+        }
+
+        public void DeleteOldHistory()
+        {
+            history.Sort((h1, h2) => h1.InputDate.CompareTo(h2.InputDate));
+            while (history.Count > historyMaximumCount)
+            {
+                history.RemoveAt(0);
             }
         }
 
@@ -263,8 +277,81 @@ namespace SimpleExplorer
         {
             if (win != null) { win.dispose(); win = null; }
             UnregisterLogger(this);
-            Properties.Settings.Default.Save();
+            SaveResources();
             System.Windows.Application.Current.Shutdown();
+        }
+
+        public void SaveResources()
+        {
+            Properties.Settings.Default.Save();
+            SaveHistories();
+            SaveFavorites();
+        }
+
+        public void LoadResources(bool triggerUIEvent = false)
+        {
+            LoadHistories(triggerUIEvent);
+            LoadFavorites(triggerUIEvent);
+        }
+
+        protected void SaveHistoryContent(string fileName, List<ConnectHistory> histList)
+        {
+            string contentsString = "";
+            foreach (ConnectHistory his in histList)
+            {
+                string line = his.ToString().Replace("\n", "\\" + "\n");
+                contentsString += line + "\n";
+            }
+            HUtilities.SaveTextResource(fileName, contentsString.Trim());
+        }
+
+        protected List<string> LoadHistoryContent(string fileName)
+        {
+            string fileContent = HUtilities.ReadTextResource(fileName);
+            if (fileContent == null) return new List<string>();
+
+            List<string> lines = HUtilities.SplitLineWithoutEscaped(fileContent);
+            fileContent = null;
+
+            return lines;
+        }
+
+        protected void SaveHistories()
+        {
+            DeleteOldHistory();
+            SaveHistoryContent("history.txt", history);
+        }
+
+        protected void SaveFavorites()
+        {
+            SaveHistoryContent("favorites.txt", favorites);
+        }
+
+        protected void LoadHistories(bool triggerUIEvent = false)
+        {
+            List<string> lines = LoadHistoryContent("history.txt");
+
+            history.Clear();
+            foreach (string line in lines)
+            {
+                if (history.Count >= historyMaximumCount) break;
+                history.Add(new ConnectHistory(line));
+            }
+
+            if (triggerUIEvent) win.RefreshConnectHistory(history);
+        }
+
+        protected void LoadFavorites(bool triggerUIEvent = false)
+        {
+            List<string> lines = LoadHistoryContent("favorites.txt");
+
+            favorites.Clear();
+            foreach (string line in lines)
+            {
+                favorites.Add(new ConnectHistory(line));
+            }
+
+            if (triggerUIEvent) win.RefreshFavorites(favorites);
         }
 
         public void Log(object obj)

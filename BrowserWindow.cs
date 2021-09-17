@@ -58,6 +58,7 @@ namespace SimpleExplorer
         void HideStatusBar();
         void ShowStatusBar();
         void RefreshConnectHistory(List<ConnectHistory> lists);
+        void RefreshFavorites(List<ConnectHistory> lists);
         void Log(object msg);
     }
 }

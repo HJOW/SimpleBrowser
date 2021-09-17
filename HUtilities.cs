@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using Microsoft.Win32;
 /*
  Copyright 2021 HJOW
@@ -45,6 +46,137 @@ namespace SimpleExplorer
             using (RegistryKey Key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", RegistryKeyPermissionCheck.ReadWriteSubTree))
                 if (Key.GetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe") == null)
                     Key.SetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe", 11001, RegistryValueKind.DWord);
+        }
+
+        public static List<string> SplitLineWithoutEscaped(string contents)
+        {
+            List<string> lines = new List<string>();
+            char[] chars = contents.ToCharArray();
+            char lasts = ' ';
+            string collectors = "";
+
+            foreach (char c in chars)
+            {
+                if (c == '\n')
+                {
+                    if (lasts == '\\')
+                    {
+                        collectors += "\n";
+                    }
+                    else
+                    {
+                        lines.Add(collectors);
+                        collectors = "";
+                    }
+                }
+                else
+                {
+                    collectors += c.ToString();
+                }
+
+                lasts = c;
+            }
+
+            return lines;
+        }
+
+        public static string GetOSHomeDirectory()
+        {
+            return Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        }
+
+        public static void SaveTextFile(string fileFullPath, string contents)
+        {
+            if (contents == null) contents = "";
+            List<string> lines = SplitLineWithoutEscaped(contents);
+
+            StreamWriter writer = null;
+            try
+            {
+                writer = new StreamWriter(fileFullPath, false, System.Text.Encoding.UTF8);
+                foreach (string line in lines)
+                {
+                    writer.WriteLine(line);
+                }
+
+                writer.Close();
+                writer.Dispose();
+                writer = null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                if (writer != null)
+                {
+                    writer.Close();
+                    writer.Dispose();
+                    writer = null;
+                }
+            }
+        }
+
+        public static string ReadTextFile(string fileFullPath)
+        {
+            string contents = null;
+            StreamReader reader = null;
+
+            try
+            {
+                reader = new StreamReader(fileFullPath);
+                contents = "";
+                string line;
+                while (true)
+                {
+                    line = reader.ReadLine();
+                    if (line == null) break;
+                    contents += line + "\n";
+                }
+
+                reader.Close();
+                reader.Dispose();
+                reader = null;
+
+                contents = contents.Trim();
+                return contents;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                    reader.Dispose();
+                    reader = null;
+                }
+            }
+
+            return contents;
+        }
+
+        public static void SaveTextResource(string fileName, string contents)
+        {
+            string dir = GetOSHomeDirectory() + Path.DirectorySeparatorChar + ".simpleBrowser";
+            if (!File.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+            SaveTextFile(dir + Path.DirectorySeparatorChar + fileName, contents);
+        }
+
+        public static string ReadTextResource(string fileName)
+        {
+            string dir = GetOSHomeDirectory() + Path.DirectorySeparatorChar + ".simpleBrowser";
+            if (!File.Exists(dir))
+            {
+                return null;
+            }
+            return ReadTextFile(dir + Path.DirectorySeparatorChar + fileName);
         }
     }
 }
