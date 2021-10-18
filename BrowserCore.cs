@@ -368,7 +368,7 @@ namespace SimpleExplorer
 
         public static void UnregisterLogger(Logger logger)
         {
-            LOG_EVENTS.Remove(logger);
+            if(LOG_EVENTS.Contains(logger)) LOG_EVENTS.Remove(logger);
         }
 
         public static void PrintLog(object obj)
