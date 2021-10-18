@@ -124,7 +124,8 @@ namespace SimpleExplorer
                 WebBrowser w = win.getWebBrowser();
                 if (w != null)
                 {
-                    webheader = ((dynamic)w.Document).Title;
+                    IHTMLDocument2 doc = (IHTMLDocument2)w.Document;
+                    webheader = ((dynamic) doc).Title;
                     webheader = webheader.Trim();
                 }
                 titles = webheader + "";
@@ -275,9 +276,10 @@ namespace SimpleExplorer
 
         public void Shutdown()
         {
-            if (win != null) { win.dispose(); win = null; }
-            UnregisterLogger(this);
-            SaveResources();
+            Console.WriteLine("Simple Browser will be shutdown.");
+            try { if (win != null) { win.dispose(); win = null; } } catch (Exception ex) { Log(ex.ToString()); Console.WriteLine(ex.ToString() + "\n" + System.Environment.StackTrace); }
+            try { SaveResources(); } catch (Exception ex) { Log(ex.ToString()); Console.WriteLine(ex.ToString() + "\n" + System.Environment.StackTrace); }
+            try { UnregisterLogger(this); } catch (Exception ex) { Console.WriteLine(ex.ToString() + "\n" + System.Environment.StackTrace); }
             System.Windows.Application.Current.Shutdown();
         }
 
@@ -358,6 +360,10 @@ namespace SimpleExplorer
         {
             if (obj == null) obj = "null";
             Console.WriteLine(obj.ToString());
+            if(obj is Exception)
+            {
+                Console.WriteLine(" at ..." + System.Environment.StackTrace);
+            }
         }
 
         public static void RegisterLogger(Logger logger)
