@@ -40,13 +40,19 @@ namespace SimpleExplorer
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            string theme = SimpleExplorer.Properties.Settings.Default.Theme;
-            if (theme == null) theme = "default";
-            theme = theme.Trim().ToLower();
+            try
+            {
+                string theme = SimpleExplorer.Properties.Settings.Default.Theme;
+                if (theme == null) theme = "default";
+                theme = theme.Trim().ToLower();
 
-            if (theme == "simple") StartupUri = new Uri("SimpleWindow.xaml", UriKind.Relative);
-            else StartupUri = new Uri("RibbonBasedWindow.xaml", UriKind.Relative);
-
+                if (theme == "simple") StartupUri = new Uri("SimpleWindow.xaml", UriKind.Relative);
+                else StartupUri = new Uri("RibbonBasedWindow.xaml", UriKind.Relative);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Simple Explorer 를 실행하지 못하였습니다.\n" + ex.ToString());
+            }
         }
     }
 }
