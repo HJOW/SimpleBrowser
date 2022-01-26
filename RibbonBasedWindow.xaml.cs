@@ -159,7 +159,7 @@ namespace SimpleExplorer
 
         public void Shutdown()
         {
-            if (core == null) core.Shutdown();
+            if (core != null) core.Shutdown();
         }
 
         protected void windowMainWindow_Loaded(object sender, RoutedEventArgs e)
