@@ -70,6 +70,15 @@ namespace SimpleExplorer
         {
             System.Diagnostics.Process p = HUtilities.RunProgram("InetCpl.cpl", ",4");
             p.WaitForExit();
+            
+            /*
+            string commands = @"C:\\Windows\\system32\\rundll32.exe";
+            string cmdParam = @"C:\\Windows\\system32\\shell32.dll,Control_RunDLL" + " C:\\Windows\\system32\\inetcpl.cpl,,0";
+            Log("Command> " + commands + " " + cmdParam);
+
+            System.Diagnostics.Process p = System.Diagnostics.Process.Start(commands, cmdParam);
+            p.WaitForExit();
+            */
         }
 
         public void GoBack()
