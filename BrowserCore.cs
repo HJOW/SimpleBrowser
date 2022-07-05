@@ -233,7 +233,8 @@ namespace SimpleExplorer
                 hist.Title = uriStr;
                 try
                 {
-                    hist.Title = (win.getWebBrowser().Document as dynamic).Title;
+                    object doc = win.getWebBrowser().Document;
+                    hist.Title = (doc as dynamic).Title;
                 }
                 catch (Exception ex)
                 {
