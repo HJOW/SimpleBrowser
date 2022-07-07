@@ -257,5 +257,57 @@ namespace SimpleExplorer
         {
 
         }
+
+        private void menu_iever_new_Click(object sender, RoutedEventArgs e)
+        {
+            bool res = HUtilities.setFeatureBrowserEmulation(false, 11001);
+            if (res)
+            {
+                MessageBox.Show("엔진 버전이 설정되었습니다.");
+            }
+            else
+            {
+                MessageBox.Show("엔진 버전 설정에 실패하였습니다.");
+            }
+        }
+
+        private void menu_iever_7_Click(object sender, RoutedEventArgs e)
+        {
+            bool res = HUtilities.setFeatureBrowserEmulation(false, 7000);
+            if (res)
+            {
+                MessageBox.Show("엔진 버전이 설정되었습니다.");
+            }
+            else
+            {
+                MessageBox.Show("엔진 버전 설정에 실패하였습니다.");
+            }
+        }
+
+        private void menu_iever_lm_new_Click(object sender, RoutedEventArgs e)
+        {
+            bool res = HUtilities.setFeatureBrowserEmulation(true, 11001);
+            if (res)
+            {
+                MessageBox.Show("엔진 버전이 설정되었습니다.");
+            }
+            else
+            {
+                MessageBox.Show("엔진 버전 설정에 실패하였습니다.");
+            }
+        }
+
+        private void menu_iever_lm_7_Click(object sender, RoutedEventArgs e)
+        {
+            bool res = HUtilities.setFeatureBrowserEmulation(true, 7000);
+            if (res)
+            {
+                MessageBox.Show("엔진 버전이 설정되었습니다.");
+            }
+            else
+            {
+                MessageBox.Show("엔진 버전 설정에 실패하였습니다.");
+            }
+        }
     }
 }

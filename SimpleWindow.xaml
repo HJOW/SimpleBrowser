@@ -49,6 +49,16 @@ limitations under the License.
                         <MenuItem Header="심플" IsCheckable="True"  Click="MenuItem_Click_Theme_Simple" Name="menu_setting_theme_simple" IsChecked="True"/>
                         <MenuItem Header="리본" IsCheckable="False" Click="MenuItem_Click_Theme_Ribbon" Name="menu_setting_theme_ribbon"/>
                     </MenuItem>
+                    <MenuItem Header="엔진 버전 설정 (재시작 후 적용)">
+                        <MenuItem Header="현재 사용자만">
+                            <MenuItem Header="최신" Name="menu_iever_new" Click="menu_iever_new_Click"/>
+                            <MenuItem Header="Internet Explorer 7" Name="menu_iever_7" Click="menu_iever_7_Click"/>
+                        </MenuItem>
+                        <MenuItem Header="모든 사용자">
+                            <MenuItem Header="최신" Name="menu_iever_lm_new" Click="menu_iever_lm_new_Click"/>
+                            <MenuItem Header="Internet Explorer 7" Name="menu_iever_lm_7" Click="menu_iever_lm_7_Click"/>
+                        </MenuItem>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem Header="도움말">
                     <MenuItem Header="About Simple Explorer" Click="MenuItem_Click_Help_About"/>

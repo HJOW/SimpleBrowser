@@ -42,10 +42,32 @@ namespace SimpleExplorer
         }
         public static void FixWebBrowserCompatibility()
         {
-            // set the actual key
-            using (RegistryKey Key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", RegistryKeyPermissionCheck.ReadWriteSubTree))
-                if (Key.GetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe") == null)
-                    Key.SetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe", 11001, RegistryValueKind.DWord);
+            setFeatureBrowserEmulation();
+        }
+
+        public static bool setFeatureBrowserEmulation(bool localMachine = false, int versionCode = 11001)
+        {
+            try
+            {
+                if (localMachine)
+                {
+                    using (RegistryKey Key = Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", RegistryKeyPermissionCheck.ReadWriteSubTree))
+                        if (Key.GetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe") == null)
+                            Key.SetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe", versionCode, RegistryValueKind.DWord);
+                }
+                else
+                {
+                    using (RegistryKey Key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", RegistryKeyPermissionCheck.ReadWriteSubTree))
+                        if (Key.GetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe") == null)
+                            Key.SetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe", versionCode, RegistryValueKind.DWord);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+            return true;
         }
 
         public static List<string> SplitLineWithoutEscaped(string contents)
