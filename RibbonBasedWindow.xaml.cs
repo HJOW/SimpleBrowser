@@ -83,6 +83,58 @@ namespace SimpleExplorer
             core.Navigate(tfUrl.Text);
         }
 
+        private void RibbonCommand_IEVerCUNewClicked(object sender, ExecutedRoutedEventArgs e)
+        {
+            bool res = HUtilities.setFeatureBrowserEmulation(false, 11001);
+            if (res)
+            {
+                MessageBox.Show("엔진 버전이 설정되었습니다.");
+            }
+            else
+            {
+                MessageBox.Show("엔진 버전 설정에 실패하였습니다.");
+            }
+        }
+
+        private void RibbonCommand_IEVerCU7Clicked(object sender, ExecutedRoutedEventArgs e)
+        {
+            bool res = HUtilities.setFeatureBrowserEmulation(false, 7000);
+            if (res)
+            {
+                MessageBox.Show("엔진 버전이 설정되었습니다.");
+            }
+            else
+            {
+                MessageBox.Show("엔진 버전 설정에 실패하였습니다.");
+            }
+        }
+
+        private void RibbonCommand_IEVerLMNewClicked(object sender, ExecutedRoutedEventArgs e)
+        {
+            bool res = HUtilities.setFeatureBrowserEmulation(true, 11001);
+            if (res)
+            {
+                MessageBox.Show("엔진 버전이 설정되었습니다.");
+            }
+            else
+            {
+                MessageBox.Show("엔진 버전 설정에 실패하였습니다.");
+            }
+        }
+
+        private void RibbonCommand_IEVerLM7Clicked(object sender, ExecutedRoutedEventArgs e)
+        {
+            bool res = HUtilities.setFeatureBrowserEmulation(true, 7000);
+            if (res)
+            {
+                MessageBox.Show("엔진 버전이 설정되었습니다.");
+            }
+            else
+            {
+                MessageBox.Show("엔진 버전 설정에 실패하였습니다.");
+            }
+        }
+
         public WebBrowser getWebBrowser()
         {
             BrowserTab tabOne = getActiveBrowserTab();
