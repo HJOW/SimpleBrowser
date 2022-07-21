@@ -70,6 +70,14 @@ namespace SimpleExplorer
             return true;
         }
 
+        public static void SetBrowserFeatureControlKey(string feature, string appName, uint value)
+        {
+            using (var key1 = Registry.CurrentUser.CreateSubKey(string.Concat(@"Software\Microsoft\Internet Explorer\Main\FeatureControl\", feature), RegistryKeyPermissionCheck.ReadWriteSubTree))
+            {
+                key1.SetValue(appName, (uint)value, RegistryValueKind.DWord);
+            }
+        }
+
         public static List<string> SplitLineWithoutEscaped(string contents)
         {
             List<string> lines = new List<string>();
