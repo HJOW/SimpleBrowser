@@ -52,14 +52,14 @@ namespace SimpleExplorer
                 if (localMachine)
                 {
                     using (RegistryKey Key = Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", RegistryKeyPermissionCheck.ReadWriteSubTree))
-                        if (Key.GetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe") == null)
-                            Key.SetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe", versionCode, RegistryValueKind.DWord);
+                        if (Key.GetValue(CurrentProcess.ProcessName + ".exe") == null)
+                            Key.SetValue(CurrentProcess.ProcessName + ".exe", versionCode, RegistryValueKind.DWord);
                 }
                 else
                 {
                     using (RegistryKey Key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", RegistryKeyPermissionCheck.ReadWriteSubTree))
-                        if (Key.GetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe") == null)
-                            Key.SetValue(System.Diagnostics.Process.GetCurrentProcess().ProcessName + ".exe", versionCode, RegistryValueKind.DWord);
+                        if (Key.GetValue(CurrentProcess.ProcessName + ".exe") == null)
+                            Key.SetValue(CurrentProcess.ProcessName + ".exe", versionCode, RegistryValueKind.DWord);
                 }
             }
             catch (Exception ex)
@@ -207,6 +207,14 @@ namespace SimpleExplorer
                 return null;
             }
             return ReadTextFile(dir + Path.DirectorySeparatorChar + fileName);
+        }
+
+        public static System.Diagnostics.Process CurrentProcess
+        {
+            get
+            {
+                return System.Diagnostics.Process.GetCurrentProcess();
+            }
         }
     }
 }
